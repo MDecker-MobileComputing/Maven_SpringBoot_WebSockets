@@ -1,17 +1,17 @@
 package de.eldecker.dhbw.spring.websockets.ws;
 
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.messaging.DefaultSimpUserRegistry;
-import org.springframework.web.socket.messaging.SubProtocolWebSocketHandler;
-import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 
+/**
+ * Konfigurations für Websockets.
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
@@ -22,6 +22,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint( "/ws" ).withSockJS(); // Registering a STOMP endpoint
     }
 
+    
     @Override
     public void configureMessageBroker( MessageBrokerRegistry config ) {
         
