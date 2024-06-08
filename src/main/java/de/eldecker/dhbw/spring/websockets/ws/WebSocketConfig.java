@@ -30,6 +30,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint( "/mein_ws" );
     }
 
+    /**
+     * Broker für {@code /topic} aktivieren.
+     */
     @Override
     public void configureMessageBroker( MessageBrokerRegistry config ) {
 

@@ -67,7 +67,9 @@ public class VokalersetzungsController {
 
     
     /**
-     * Erhöht den Zähler für die WebSocket/STOMP-Sitzung.
+     * Erhöht den Zähler für die WebSocket/STOMP-Sitzung. Der Zähler wird benötigt,
+     * um zu gewährleisten, dass pro Sitzung nur eine bestimmte Anzahl von
+     * "Übersetzungen" ausgeführt werden.
      * 
      * @param sessionId Session-ID
      * 
