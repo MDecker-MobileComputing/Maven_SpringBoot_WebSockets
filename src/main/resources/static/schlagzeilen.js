@@ -1,6 +1,6 @@
 "use strict";
 
-const socket      = new SockJS( "/ws" );
+const socket      = new SockJS( "/mein_ws" );
 const stompClient = Stomp.over( socket );
 
 const nachrichtenElement = document.getElementById( "nachrichten" );

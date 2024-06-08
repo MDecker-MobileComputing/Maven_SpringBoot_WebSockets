@@ -6,7 +6,7 @@ let stompClient = null;
 
 
 /**
- * Nimmt initialisierungen vor, sobald die Seite geladen ist.
+ * Nimmt Initialisierungen vor, sobald die Seite geladen ist.
  */
 document.addEventListener( "DOMContentLoaded", function() {
 
@@ -17,7 +17,7 @@ document.addEventListener( "DOMContentLoaded", function() {
         return;
     }
 
-    stompClient = new StompJs.Client({ brokerURL: "ws://localhost:8080/ws" });
+    stompClient = new StompJs.Client({ brokerURL: "ws://localhost:8080/mein_ws" });
     console.log( "Stomp-Client erstellt: " + stompClient );
     stompClient.onConnect = ( frame ) => {
 
@@ -36,6 +36,8 @@ document.addEventListener( "DOMContentLoaded", function() {
 
         alert( "Fehler beim Stomp-Protokoll: " + frame.headers.message );
     };
+
+    stompClient.activate();
 
     console.log( "Seite ist initialisiert." );
 });

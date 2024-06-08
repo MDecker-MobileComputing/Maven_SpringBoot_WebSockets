@@ -1,5 +1,7 @@
 package de.eldecker.dhbw.spring.websockets.ws;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -15,12 +17,18 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class VokalersetzungsController {
 
-  @MessageMapping("/vokalersetzung_input")
-  @SendTo("/topic/vokalersetzungs_output")
-  public String vokaleErsetzen( String textVomClient ) throws Exception {
-
-        final String ergebnisString = textVomClient.replaceAll( "[aeiou]", "o" );
-        return ergebnisString;
-  }
+    private final static Logger LOG = LoggerFactory.getLogger( VokalersetzungsController.class );
+    
+    @MessageMapping("/vokalersetzung_input")
+    @SendTo("/topic/vokalersetzungs_output")
+    public String vokaleErsetzen( String textVomClient ) throws Exception {
+    
+        final String textZumClient = textVomClient.replaceAll( "[aeiou]", "o" );
+        
+        LOG.info( "textVomClient=\"{}\", textZumClient=\"{}\".", 
+                  textVomClient, textZumClient );
+        
+        return textZumClient;
+    }
 
 }
