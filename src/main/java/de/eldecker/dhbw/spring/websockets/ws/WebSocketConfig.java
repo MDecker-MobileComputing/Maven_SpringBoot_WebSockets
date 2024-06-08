@@ -19,7 +19,9 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     /**
-     * STOMP-Endpunkt {@code /ws} registrieren.
+     * STOMP-Endpunkt {@code /ws} registrieren. "STOMP" steht für
+     * "Simple Text Oriented Messaging Protocol", welches hier über
+     * WebSockets verwendet wird.
      */
     @Override
     public void registerStompEndpoints( StompEndpointRegistry registry ) {
