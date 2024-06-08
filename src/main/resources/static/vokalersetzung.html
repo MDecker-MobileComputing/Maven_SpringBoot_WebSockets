@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Vokalersetzung über WebSocket</title>
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="wsdemo_stil.css">
+</head>
+<body>
+
+  <h1>Vokalersetzung über WebSocket</h1>
+
+  <p>
+    <label for="texteingabe" class="fett">Eingabe:</label>
+    <input type="text" id="texteingabe">
+    <br><br>
+
+    <input type="submit" value="Text umwandeln" onclick="return onUmwandelnButton()"     >
+    &nbsp;
+    <input type="reset"  value="Zurücksetzen"   onclick="return onZuruecksetzenButton()" >
+  </p>
+  <br><br>
+
+  <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+  <script src="vokalersetzung.js"></script>
+
+</body>

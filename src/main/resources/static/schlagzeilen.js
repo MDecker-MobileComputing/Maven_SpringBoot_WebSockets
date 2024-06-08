@@ -6,15 +6,15 @@ const stompClient = Stomp.over( socket );
 const nachrichtenElement = document.getElementById( "nachrichten" );
 
 
-stompClient.connect({}, function(frame) {
+stompClient.connect( {}, function( frame ) {
 
-    console.log("Verbunden: " + frame);
+    console.log( "Verbunden: " + frame );
 
-    stompClient.subscribe("/topic/schlagzeilen", function(nachricht) {
+    stompClient.subscribe( "/topic/schlagzeilen", function( nachricht ) {
 
         const nachrichtJSON = nachricht.body;
 
-        const nachrichtObjekt = JSON.parse(nachrichtJSON);
+        const nachrichtObjekt = JSON.parse( nachrichtJSON );
 
         const inOderAusland = nachrichtObjekt.istInland ? "[Inland] " : "[Ausland] ";
 

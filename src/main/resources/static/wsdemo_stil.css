@@ -7,3 +7,24 @@ body {
 h1 {
     margin-bottom: 1.5em;
 }
+
+.fett {
+    font-weight: bold;
+}
+
+a {
+    margin-bottom: 1em;
+}
+
+ul li {
+    margin-bottom: 20px;
+}
+
+input[ type="text" ] {
+    width: 100%;
+}
+@media ( min-width: 800px ) {
+    input[ type="text" ] {
+        width: 50%;
+    }
+}
