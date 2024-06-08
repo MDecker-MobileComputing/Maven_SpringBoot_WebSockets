@@ -2,6 +2,8 @@
 
 let texteingabeElement = null;
 
+let vokalAuswahl = null;
+
 let stompClient = null;
 
 
@@ -13,12 +15,17 @@ document.addEventListener( "DOMContentLoaded", function() {
     texteingabeElement = document.getElementById( "texteingabe" );
     if ( !texteingabeElement ) {
 
-        console.error( "Konnte das Texteingabe-Element nicht finden." );
+        alert( "Konnte das Texteingabe-Element nicht finden." );
         return;
     }
 
+    vokalAuswahl = document.getElementById( "vokalAuswahl" );
+    if ( !vokalAuswahl ) {
+
+        alert( "Konnte das Vokal-Auswahl-Element nicht finden." );
+    }
+
     stompClient = new StompJs.Client({ brokerURL: "ws://localhost:8080/mein_ws" });
-    console.log( "Stomp-Client erstellt: " + stompClient );
     stompClient.onConnect = ( frame ) => {
 
         console.log( "WebSocket-Verbindung aufgebaut: " + frame );
@@ -48,19 +55,25 @@ document.addEventListener( "DOMContentLoaded", function() {
  */
 function onUmwandelnButton() {
 
-    let textEingabe = texteingabeElement.value;
-
-    textEingabe = textEingabe.trim();
-
+    const textEingabe = texteingabeElement.value.trim();
     if ( textEingabe.length === 0 ) {
 
         alert( "Bitte geben Sie einen Text ein." );
         return;
-    }
+    }    
+
+    const vokal = vokalAuswahl.value;
+
+    const payloadObjekt = {
+        text : textEingabe,
+        vokal: vokal
+    };
+
+    const payloadString = JSON.stringify( payloadObjekt );
 
     stompClient.publish({
         destination: "/app/vokalersetzung_input",
-        body: textEingabe
+        body       : payloadString
     });
 
     console.log( "Text an Server gesendet: " + textEingabe );
@@ -73,4 +86,5 @@ function onUmwandelnButton() {
 function onZuruecksetzenButton() {
 
     texteingabeElement.value = "";
+    vokalAuswahl.value       = "a";
 }
