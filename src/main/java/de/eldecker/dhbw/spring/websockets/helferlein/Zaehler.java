@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 /**
  * Bean-Klasse, die einen einfachen Ganzzahlzähler repräsentiert.
  * Damit verschiedene Dinge gezählt werden können, hat diese Bean
- * den Scope "prototype" (siehe Annotation {@code Scope}), damit
- * jeder Verwender eine eigene Instanz bekommt.
+ * den <b>Scope "prototype"</b> (siehe Annotation {@code Scope}), 
+ * damit jeder Verwender eine eigene Instanz bekommt.
  */
 @Component
 @Scope("prototype")
