@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Websocket Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.3/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="wsdemo_stil.css">
+</head>
+<body>
+    <h1>Von Websocket empfangene Schlagzeilen</h1>
+
+    <div id="nachrichten"></div>
+
+    <script>
+        const socket = new SockJS( "/ws" );
+        const stompClient = Stomp.over( socket );
+
+        stompClient.connect({}, function(frame) {
+            console.log("Verbunden: " + frame);
+
+            stompClient.subscribe( "/topic/schlagzeilen", function( nachricht ) {
+
+                const nachrichtPayload = nachricht.body;
+                const paragraphNeu     = "<p>" + nachricht.body + "</p>";
+
+                document.getElementById( "nachrichten" ).innerHTML += paragraphNeu;
+            });
+        });
+    </script>
+</body>
+</html>

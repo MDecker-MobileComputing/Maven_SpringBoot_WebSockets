@@ -64,7 +64,7 @@ public class SchlagzeilenSender {
     @Scheduled( fixedDelay = 5_000, initialDelay = 5_000 )
     public void sendeSchlagzeile() {
 
-        final String nachricht = "Nachricht erzeugt um " + (new Date());
+        final String nachricht = "Nachricht erzeugt um " + ( new Date() );
         _messagingTemplate.convertAndSend( "/topic/schlagzeilen", nachricht );
         LOG.info( "Nachricht versendet: " + nachricht );
 

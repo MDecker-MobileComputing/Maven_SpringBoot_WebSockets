@@ -11,6 +11,11 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 /**
  * Konfiguration für Websockets.
+ * <br><br>
+ *
+ * In einer mit <i>Spring Boot</i> erstellten Anwendung wird standardmäßig
+ * für Websockets dieselbe Portnummer wie für HTTP verwendet, nämlich
+ * {@value 8080}.
  */
 @Configuration
 @EnableWebSocketMessageBroker
