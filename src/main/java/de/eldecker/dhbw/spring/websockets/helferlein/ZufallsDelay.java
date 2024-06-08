@@ -1,11 +1,6 @@
 package de.eldecker.dhbw.spring.websockets.helferlein;
 
-import static java.lang.String.format;
-
 import java.util.Random;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Component;
 
@@ -16,8 +11,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ZufallsDelay {
-
-    private final static Logger LOG = LoggerFactory.getLogger( ZufallsDelay.class );
 
     /** Minimale Delay-Zeit von 3 Sekunden. */
     private static final int DELAY_MILLISEKUNDEN_MIN =  3_000;
@@ -34,16 +27,14 @@ public class ZufallsDelay {
      * Erzeugt eine zufällige Zeit in Millisekunden, die als Delay zwischen
      * zwei Schlagzeilen-Nachrichten genutzt wird.
      *
-     * @return Zufällige Zeit in Millisekunden; die Werte ligen zwischen
-     *         {@value #DELAY_MILLISEKUNDEN_MIN} und {@value #DELAY_MILLISEKUNDEN_MAX}.
+     * @return Zufällige Zeit in Millisekunden; die Werte liegen zwischen
+     *         {@value #DELAY_MILLISEKUNDEN_MIN} (inklusiv) und 
+     *         {@value #DELAY_MILLISEKUNDEN_MAX} (exklusiv).
      */
     public synchronized int getZufallsDelayZeit() {
 
         final int zufallsDelay = _random.nextInt( DELAY_MILLISEKUNDEN_MIN,
                                                   DELAY_MILLISEKUNDEN_MAX );
-
-        LOG.info( format("Zufalls-Delay: %,d ms", zufallsDelay) );
-
         return zufallsDelay;
     }
 

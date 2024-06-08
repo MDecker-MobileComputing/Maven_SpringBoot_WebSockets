@@ -7,11 +7,14 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import de.eldecker.dhbw.spring.websockets.helferlein.Zaehler;
 
 
 /**
@@ -22,6 +25,22 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 public class WebSocketEventListener {
 
     private final static Logger LOG = LoggerFactory.getLogger( WebSocketEventListener.class );
+    
+    /** 
+     * Instanz einer Prototype-Bean um die Anzahl der aufgebauten Verbindungen insgesamt zu zählen. 
+     * Dieser Zähler kann also nur steigen. 
+     */
+    private final Zaehler _zaehler;
+    
+    
+    /**
+     * Konstruktor für <i>Dependency Injection</i>.
+     */
+    @Autowired
+    public WebSocketEventListener( Zaehler zaehler ) {
+    
+        _zaehler = zaehler;
+    }
     
     
     /** 
@@ -54,6 +73,9 @@ public class WebSocketEventListener {
         LOG.info( "Neuer Client mit Sitzungs-ID \"{}\" hat sich verbunden.", sitzungsID );                         
         
         loggeAnzahlVerbindungen();
+        
+        final int gesamtAnzahl = _zaehler.inkrement();
+        LOG.info( "Gesamtanzahl aufgebaute Verbindungen: {}", gesamtAnzahl );
     }
     
     

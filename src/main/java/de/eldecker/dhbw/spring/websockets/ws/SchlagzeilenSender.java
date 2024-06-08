@@ -1,5 +1,6 @@
 package de.eldecker.dhbw.spring.websockets.ws;
 
+import de.eldecker.dhbw.spring.websockets.helferlein.Zaehler;
 import de.eldecker.dhbw.spring.websockets.helferlein.ZufallsDelay;
 import de.eldecker.dhbw.spring.websockets.logik.SchlagzeilenErzeuger;
 import de.eldecker.dhbw.spring.websockets.model.Schlagzeile;
@@ -37,6 +38,11 @@ public class SchlagzeilenSender {
     
     /** Bean, um Java-Objekt mit Jackson in JSON zumzuwandeln. */ 
     private final ObjectMapper _objectMapper;
+    
+    /** 
+     * Instanz einer Prototype-Bean um die Anzahl der verschickten Nachrichten zu zählen.
+     */
+    private final Zaehler _zaehler;
 
 
     /**
@@ -46,12 +52,14 @@ public class SchlagzeilenSender {
     public SchlagzeilenSender ( SimpMessagingTemplate messagingTemplate,
                                 ZufallsDelay          zufallsDelay, 
                                 SchlagzeilenErzeuger  schlagzeilenErzeuger,
-                                ObjectMapper          objectMapper ) {
+                                ObjectMapper          objectMapper,
+                                Zaehler               zaehler ) {
 
         _messagingTemplate    = messagingTemplate;
         _zufallsDelay         = zufallsDelay;
         _schlagzeilenErzeugen = schlagzeilenErzeuger;
         _objectMapper         = objectMapper;
+        _zaehler              = zaehler;
     }
 
 
@@ -84,7 +92,11 @@ public class SchlagzeilenSender {
             jsonPayload = _objectMapper.writeValueAsString( schlagzeile );
             
             _messagingTemplate.convertAndSend( "/topic/schlagzeilen", jsonPayload );
-            LOG.info( "Nachricht versendet: " + schlagzeile.schlagzeile() );
+                        
+            final int anzahlNachrichten = _zaehler.inkrement();
+            
+            LOG.info( "Nachricht Nr. {} versendet: {}", 
+                      anzahlNachrichten, schlagzeile.schlagzeile() );
             
             final int delayZeit = _zufallsDelay.getZufallsDelayZeit(); 
             Thread.sleep( delayZeit );                        
