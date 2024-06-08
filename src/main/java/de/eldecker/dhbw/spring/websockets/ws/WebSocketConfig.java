@@ -10,7 +10,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 
 /**
- * Konfigurations für Websockets.
+ * Konfiguration für Websockets.
  */
 @Configuration
 @EnableWebSocketMessageBroker
@@ -18,15 +18,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        
-        registry.addEndpoint( "/ws" ).withSockJS(); // Registering a STOMP endpoint
+
+        registry.addEndpoint( "/ws" ).withSockJS(); // STOMP-Endpunkt registrieren
     }
 
-    
+
     @Override
     public void configureMessageBroker( MessageBrokerRegistry config ) {
-        
+
         config.enableSimpleBroker( "/topic" ); // Enabling a simple in-memory broker
         config.setApplicationDestinationPrefixes( "/app" ); // Setting application destination prefixes
     }
+
 }
