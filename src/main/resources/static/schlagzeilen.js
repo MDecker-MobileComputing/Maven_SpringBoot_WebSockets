@@ -1,31 +1,54 @@
 "use strict";
 
-const socket      = new SockJS( "/mein_ws" );
-const stompClient = Stomp.over( socket );
+let nachrichtenElement = null;
 
-const nachrichtenElement = document.getElementById( "nachrichten" );
+let stompClient = null;
 
 
-stompClient.connect( {}, function( frame ) {
+/**
+ * Nimmt Initialisierungen vor, sobald die Seite geladen ist.
+ */
+document.addEventListener( "DOMContentLoaded", function() {
 
-    console.log( "Verbunden: " + frame );
+    nachrichtenElement = document.getElementById( "nachrichten" );
+    if ( !nachrichtenElement ) {
 
-    stompClient.subscribe( "/topic/schlagzeilen", function( nachricht ) {
+        alert( "Konnte das DOM-Element mit ID \"nachrichten\" zur Anzeige der Schlagzeilen nicht finden." );
+        return;
+    }
 
-        const nachrichtJSON = nachricht.body;
+    stompClient = new StompJs.Client({ brokerURL: "ws://localhost:8080/mein_ws" });
 
-        const nachrichtObjekt = JSON.parse( nachrichtJSON );
+    stompClient.onConnect = ( frame ) => {
 
-        const inOderAusland = nachrichtObjekt.istInland ? "[Inland] " : "[Ausland] ";
+        console.log( "WebSocket-Verbindung aufgebaut: " + frame );
+        stompClient.subscribe( "/topic/schlagzeilen", (nachricht) => {
 
-        const text = inOderAusland + nachrichtObjekt.schlagzeile;
+            const nachrichtJSON = nachricht.body;
 
-        const paragraphNeu = "<p>" + text + "</p>";
+            const nachrichtObjekt = JSON.parse( nachrichtJSON );
+    
+            const inOderAusland = nachrichtObjekt.istInland ? "[Inland] " : "[Ausland] ";
+    
+            const text = inOderAusland + nachrichtObjekt.schlagzeile;
+    
+            const paragraphNeu = "<p>" + text + "</p>";
+    
+            nachrichtenElement.innerHTML += paragraphNeu;            
+        });
+    };    
 
-        nachrichtenElement.innerHTML += paragraphNeu;
-    });
-}, function(error) {
+    stompClient.onWebSocketError = ( error ) => {
 
-    alert( "Fehler bei WebSocket-Verbindung aufgetreten: " + error );
+        alert( "WebSocket-Fehler: ", error );
+    };
+    stompClient.onStompError = ( frame ) => {
+
+        alert( "Fehler beim STOMP-Protokoll: " + frame.headers.message );
+    };
+
+    stompClient.activate();
+
+    console.log( "Seite ist initialisiert." );
 });
 
