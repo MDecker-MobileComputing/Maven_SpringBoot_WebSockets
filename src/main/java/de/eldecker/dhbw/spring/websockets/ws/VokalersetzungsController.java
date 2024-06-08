@@ -10,8 +10,8 @@ import de.eldecker.dhbw.spring.websockets.model.VokalersetzungInput;
 
 
 /**
- * Controller für STOMP auf Basis von WebSockets, der zu jeder Textnachricht vom
- * Client (Browser) eine Antwort zurückgesendet wird.
+ * Controller für STOMP auf Basis von WebSockets: Zu jedem als JSON vom Client empfangenen
+ * {@link VokalersetzungInput}-Objekt wird das "Übersetzungsergebnis" zurückgesendet.
  * <br><br>
  *
  * siehe auch <a href="https://spring.io/guides/gs/messaging-stomp-websocket/">dieses Tutorial</a>
@@ -25,9 +25,11 @@ public class VokalersetzungsController {
     /**
      * Controller-Methode für STOMP, die im vom Client gesendeten Text Vokalersetzungen vornimmt.
      * 
-     * @param inputObjekt Objekt mit Text und Vokal
+     * @param inputObjekt Objekt mit Text und Zielvokal
      *  
-     * @return Ergebnis 
+     * @return Ergebnis String mit "Übersetzungsergebnis", 
+     *         z.B. "Helle Werld" für {@code inputObjekt.text="Hello World"} und 
+     *         {@code inputObjekt.vokal="e"}
      */
     @MessageMapping( "/vokalersetzung_input" )
     @SendTo( "/topic/vokalersetzungs_output" )
