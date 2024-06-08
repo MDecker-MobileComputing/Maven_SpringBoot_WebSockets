@@ -5,6 +5,7 @@ const stompClient = Stomp.over( socket );
 
 const nachrichtenElement = document.getElementById( "nachrichten" );
 
+
 stompClient.connect( {}, function( frame ) {
 
     console.log( "Verbunden: " + frame );
@@ -19,7 +20,7 @@ stompClient.connect( {}, function( frame ) {
 
         const text = inOderAusland + nachrichtObjekt.schlagzeile;
 
-        const paragraphNeu     = "<p>" + text + "</p>";
+        const paragraphNeu = "<p>" + text + "</p>";
 
         nachrichtenElement.innerHTML += paragraphNeu;
     });
