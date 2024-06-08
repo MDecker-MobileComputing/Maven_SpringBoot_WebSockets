@@ -21,10 +21,13 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    /**
+     * STOMP-Endpunkt {@code /ws} registrieren.
+     */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
-        registry.addEndpoint( "/ws" ).withSockJS(); // STOMP-Endpunkt registrieren
+        registry.addEndpoint( "/ws" ).withSockJS();
     }
 
 

@@ -11,9 +11,17 @@ stompClient.connect( {}, function( frame ) {
 
     stompClient.subscribe( "/topic/schlagzeilen", function( nachricht ) {
 
-        const nachrichtPayload = nachricht.body;
-        const paragraphNeu     = "<p>" + nachrichtPayload + "</p>";
+        const nachrichtJSON = nachricht.body;
+
+        const nachrichtObjekt = JSON.parse( nachrichtJSON );
+
+        const inOderAusland = nachrichtObjekt.istInland ? "[Inland] " : "[Ausland] ";
+
+        const text = inOderAusland + nachrichtObjekt.schlagzeile;
+
+        const paragraphNeu     = "<p>" + text + "</p>";
 
         nachrichtenElement.innerHTML += paragraphNeu;
     });
 });
+

@@ -1,9 +1,8 @@
 package de.eldecker.dhbw.spring.websockets.ws;
 
 import de.eldecker.dhbw.spring.websockets.helferlein.ZufallsDelay;
-
-import java.util.Date;
-import java.util.concurrent.ThreadLocalRandom;
+import de.eldecker.dhbw.spring.websockets.logik.SchlagzeilenErzeuger;
+import de.eldecker.dhbw.spring.websockets.model.Schlagzeile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 /**
@@ -29,6 +31,12 @@ public class SchlagzeilenSender {
 
     /** Bean, um zufällige Delay-Zeiten zu erzeugen. */
     private final ZufallsDelay _zufallsDelay;
+    
+    /** Bean für die Erzeugung der zufälligen Negativ-Schlagzeilen. */
+    private final SchlagzeilenErzeuger _schlagzeilenErzeugen;
+    
+    /** Bean, um Java-Objekt mit Jackson in JSON zumzuwandeln. */ 
+    private final ObjectMapper _objectMapper;
 
 
     /**
@@ -36,16 +44,20 @@ public class SchlagzeilenSender {
      */
     @Autowired
     public SchlagzeilenSender ( SimpMessagingTemplate messagingTemplate,
-                                ZufallsDelay          zufallsDelay ) {
+                                ZufallsDelay          zufallsDelay, 
+                                SchlagzeilenErzeuger  schlagzeilenErzeuger,
+                                ObjectMapper          objectMapper ) {
 
-        _messagingTemplate = messagingTemplate;
-        _zufallsDelay      = zufallsDelay;
+        _messagingTemplate    = messagingTemplate;
+        _zufallsDelay         = zufallsDelay;
+        _schlagzeilenErzeugen = schlagzeilenErzeuger;
+        _objectMapper         = objectMapper;
     }
 
 
     /**
      * Die Methode wird regelmäßig ausgeführt, um eine zufällig ausgewählte Schlagzeile
-     * über Websocket an alle Abonnenten zu senden.
+     * über Websocket an alle Abonnenten von {@code /topic/schlagzeilen} zu senden.
      * <br><br>
      *
      * Annotation {@code Scheduled} für periodische Ausführung von Methoden:
@@ -64,16 +76,25 @@ public class SchlagzeilenSender {
     @Scheduled( fixedDelay = 5_000, initialDelay = 5_000 )
     public void sendeSchlagzeile() {
 
-        final String nachricht = "Nachricht erzeugt um " + ( new Date() );
-        _messagingTemplate.convertAndSend( "/topic/schlagzeilen", nachricht );
-        LOG.info( "Nachricht versendet: " + nachricht );
-
+        final Schlagzeile schlagzeile = _schlagzeilenErzeugen.erzeugeZufallsSchlagzeile();
+        
+        String jsonPayload = "";
         try {
 
-            Thread.sleep( _zufallsDelay.getZufallsDelayZeit() );
-        }
+            jsonPayload = _objectMapper.writeValueAsString( schlagzeile );
+            
+            _messagingTemplate.convertAndSend( "/topic/schlagzeilen", jsonPayload );
+            LOG.info( "Nachricht versendet: " + schlagzeile.schlagzeile() );
+            
+            final int delayZeit = _zufallsDelay.getZufallsDelayZeit(); 
+            Thread.sleep( delayZeit );                        
+        } 
+        catch ( JsonProcessingException ex ) {
+            
+            LOG.error( "Fehler beim Konvertieren von Schlagzeile nach JSON: " + ex.getMessage() );            
+        } 
         catch ( InterruptedException ex ) {
-
+        
             LOG.error( "Fehler beim Warten: " + ex.getMessage() );
         }
     }
