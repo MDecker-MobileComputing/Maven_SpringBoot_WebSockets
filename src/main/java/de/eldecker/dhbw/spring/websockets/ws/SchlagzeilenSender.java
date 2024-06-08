@@ -57,7 +57,7 @@ public class SchlagzeilenSender {
 
     /**
      * Die Methode wird regelmäßig ausgeführt, um eine zufällig ausgewählte Schlagzeile
-     * über Websocket an alle Abonnenten von {@code /topic/schlagzeilen} zu senden.
+     * über WebSocket an alle Abonnenten von {@code /topic/schlagzeilen} zu senden.
      * <br><br>
      *
      * Annotation {@code Scheduled} für periodische Ausführung von Methoden:
