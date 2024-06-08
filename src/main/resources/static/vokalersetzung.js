@@ -1,10 +1,19 @@
 "use strict";
 
+/** UI-Element für Eingabe von Text, in dem Vokale ersetzt werden sollen */
 let texteingabeElement = null;
 
+/** ComboBox für Auswahl Zielvokal */
 let vokalAuswahl = null;
 
+/** <div>-Element, dem die "Übersetzungsergebnisse" als Kinder hinzugefügt werden */
+let ergebnisseElement = null;
+
+/** Objekt für STOMP auf WebSocket */
 let stompClient = null;
+
+/** Zähler für "Übersetzungsergebnisse". */
+let ergebnisZaehler = 0;
 
 
 /**
@@ -23,6 +32,14 @@ document.addEventListener( "DOMContentLoaded", function() {
     if ( !vokalAuswahl ) {
 
         alert( "Konnte das Vokal-Auswahl-Element nicht finden." );
+        return;
+    }
+
+    ergebnisseElement = document.getElementById( "ergebnisse" );
+    if ( !ergebnisseElement) {
+            
+        alert( "Konnte das Ergebnis-Element nicht finden." );
+        return;
     }
 
     stompClient = new StompJs.Client({ brokerURL: "ws://localhost:8080/mein_ws" });
@@ -31,7 +48,13 @@ document.addEventListener( "DOMContentLoaded", function() {
         console.log( "WebSocket-Verbindung aufgebaut: " + frame );
         stompClient.subscribe( "/topic/vokalersetzungs_output", (nachricht) => {
 
-            alert( "Antwort vom Server erhalten: " + nachricht.body)
+            ergebnisZaehler++;
+
+            const spanZaehler = `<span class="fett">Ergebnis Nr. ${ergebnisZaehler}: </span>`;
+
+            const paragraphNeu = `<p>${spanZaehler}${nachricht.body}</p>`;
+    
+            ergebnisseElement.innerHTML += paragraphNeu;  
         });
     };
 
@@ -87,4 +110,11 @@ function onZuruecksetzenButton() {
 
     texteingabeElement.value = "";
     vokalAuswahl.value       = "a";
+
+    ergebnisZaehler = 0;
+
+    while ( ergebnisseElement.firstChild ) {
+
+        ergebnisseElement.removeChild( ergebnisseElement.firstChild );
+    }
 }
