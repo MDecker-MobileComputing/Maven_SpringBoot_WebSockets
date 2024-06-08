@@ -25,22 +25,24 @@ public class VokalersetzungsController {
     /**
      * Controller-Methode für STOMP, die im vom Client gesendeten Text Vokalersetzungen vornimmt.
      * 
-     * @param textVomClient 
-     * @return
-
+     * @param inputObjekt Objekt mit Text und Vokal
+     *  
+     * @return Ergebnis 
      */
-    @MessageMapping("/vokalersetzung_input")
-    @SendTo("/topic/vokalersetzungs_output")
+    @MessageMapping( "/vokalersetzung_input" )
+    @SendTo( "/topic/vokalersetzungs_output" )
     public String vokaleErsetzen( VokalersetzungInput inputObjekt )  {
     
         final String inputText = inputObjekt.text();
-        final String vokal     = inputObjekt.vokal();
+        final char   vokal     = inputObjekt.vokal();
         
         LOG.info( "Im folgenden Text sind alle Vokale durch \"{}\" zu ersetzen: \"{}\"", 
                   vokal, inputText );
         
-        final String textZumClient = inputText.replaceAll( "[aeiou]", vokal ); // regexp für alle Vokale
-                                
+        final String textZumClient = inputText.replaceAll( "[aeiou]", vokal + "" ); // regexp für alle Vokale
+
+        LOG.info( "Sende Ergebnis Vokalersetzung zum Client: \"{}\"", textZumClient ); 
+       
         return textZumClient;
     }
 
