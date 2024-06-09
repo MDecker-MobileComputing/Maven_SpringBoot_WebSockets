@@ -44,7 +44,7 @@ document.addEventListener( "DOMContentLoaded", function() {
 
     stompClient = new StompJs.Client({
         brokerURL: "ws://localhost:8080/mein_ws" ,
-        debug: function( text) { console.log( "STOMP-Debug-Info: " + text ); },
+        debug: function( text ) { console.log( "STOMP-Debug-Info: " + text ); },
         reconnectDelay   : 5000, // Millisekunden
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000
@@ -53,7 +53,7 @@ document.addEventListener( "DOMContentLoaded", function() {
     stompClient.onConnect = ( frame ) => {
 
         console.log( "WebSocket-Verbindung aufgebaut: " + frame );
-        stompClient.subscribe( "/user/queue/vokalersetzungs_output", (nachricht) => {
+        stompClient.subscribe( "/user/queue/vokalersetzungs_output", ( nachricht ) => {
 
             texteingabeElement.value = "";
 
@@ -65,7 +65,7 @@ document.addEventListener( "DOMContentLoaded", function() {
 
             ergebnisseElement.innerHTML += paragraphNeu;
         });
-        stompClient.subscribe( "/user/queue/vokalersetzungs_fehler", (nachricht) => {
+        stompClient.subscribe( "/user/queue/vokalersetzungs_fehler", ( nachricht ) => {
 
             alert( "Fehlermeldung vom Server: " + nachricht.body );
         });

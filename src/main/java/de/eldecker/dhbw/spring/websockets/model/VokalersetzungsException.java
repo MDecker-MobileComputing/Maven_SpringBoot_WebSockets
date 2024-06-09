@@ -2,8 +2,9 @@ package de.eldecker.dhbw.spring.websockets.model;
 
 
 /**
- * Eigene Exception-Klasse für Vokalersetzungsfehler.
+ * Eigene Exception-Klasse für Fehler bei Vokalersetzung.
  */
+@SuppressWarnings("serial")
 public class VokalersetzungsException extends Exception {
 
     /**

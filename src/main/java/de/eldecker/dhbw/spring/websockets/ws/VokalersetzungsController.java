@@ -95,8 +95,8 @@ public class VokalersetzungsController {
      */
     @MessageExceptionHandler
     @SendToUser( "/queue/vokalersetzungs_fehler" )
-    public String handleException( Throwable ex,
-                                   @Header("simpSessionId") String sessionId ) {
+    public String exceptionBehandeln( Throwable ex,
+                                      @Header("simpSessionId") String sessionId ) {
 
         LOG.error( "Fehler bei Vokalersetzungs in Sitzung \"{}\": {}",
                    sessionId, ex.getMessage() );
