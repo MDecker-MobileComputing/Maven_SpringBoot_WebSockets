@@ -19,6 +19,14 @@
         <span>Nickname: </span>
         <span id="span_nickname"></span>
     </h2>
+    
+
+    <div id="chatverlauf"></div>
+    <br><br>
+
+    <label for="input_nachricht">Nachricht an Chat-Kanal senden: </label>
+    <input type="text" id="input_nachricht" placeholder="Nachricht eingeben" size="50">
+    <input type="submit" value="Senden" onclick="return onNachrichtSendenButton()" >
 
     <!-- https://www.npmjs.com/package/@stomp/stompjs -->
     <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>    

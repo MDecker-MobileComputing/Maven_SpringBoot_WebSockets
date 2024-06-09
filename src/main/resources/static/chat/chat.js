@@ -1,5 +1,7 @@
 "use strict";
 
+/** <input>-Element, in dem Nutzer Nachrichten eingibt */
+let inputNachricht = null;
 
 /** <span>-Element, in dem der Kanalname angezeigt wird. */
 let spanKanalname = null;
@@ -16,7 +18,8 @@ let nickname = "";
 /** Objekt für STOMP auf WebSocket */
 let stompClient = null;
 
-let destination = "";
+/** Ziel (Destination) für STOMP-Nachrichten */
+let stompZiel = "";
 
 
 /**
@@ -57,6 +60,12 @@ document.addEventListener( "DOMContentLoaded", function() {
         alert( "Konnte das Anzeige-Element für den Nicknamen nicht finden." );
         return;
     }
+    inputNachricht = document.getElementById( "input_nachricht" );
+    if ( !inputNachricht ) {
+
+        alert( "Konnte das Eingabe-Element für die Nachrichten nicht finden." );
+        return;
+    }   
 
     kanalname = holeUrlParameter( "kanalname" );
     if ( kanalname.length === 0 ) {
@@ -89,6 +98,29 @@ document.addEventListener( "DOMContentLoaded", function() {
 
 
 /**
+ * Nachricht von Nutzer an Chat senden.
+ * 
+ * @param {string} nachricht Nachricht des Nutzers
+ */
+function nachrichtSenden( nachricht ) {
+
+    const payloadObjekt = {
+        nickname  : nickname,
+        nachricht : nachricht
+    };
+
+    const payloadString = JSON.stringify( payloadObjekt );
+
+    stompClient.publish({
+        destination: stompZiel,
+        body       : payloadString
+    });
+
+    console.log( `Nachricht an Kanal gesendet: \"${nachricht}\"` );
+}
+
+
+/**
  * Stomp-Verbindung aufbauen: Topic abonnieren und erste Nachricht senden.
  */
 function verbindungAufbauen() {
@@ -103,7 +135,7 @@ function verbindungAufbauen() {
 
     const subscribeTopic = `/topic/unterhaltung/${kanalname}`;
 
-    destination = `/app/chat/${kanalname}`;
+    stompZiel = `/app/chat/${kanalname}`;
 
     console.log( "Abonniere STOMP-Topic: " + subscribeTopic );
 
@@ -112,29 +144,25 @@ function verbindungAufbauen() {
         console.log( "WebSocket-Verbindung aufgebaut: " + frame );
         stompClient.subscribe( subscribeTopic, ( nachricht ) => {
 
+            alert( "Nachricht empfangen: " + nachricht.body );
         });
-
-        stompClient.activate(); // nicht vergessen!
-
-        ersteNachrichtSenden();
+        
+        nachrichtSenden( "... ist dem Chat beigetreten." );
     };    
+
+    stompClient.activate(); // nicht vergessen!
 }
 
+
 /**
- * Erste Nachricht von Nutzer an Chat senden
+ * Event-Handler für den Button "Senden", um die aktuell
+ * eingegebene Nachricht an den Chat zu senden.
  */
-function ersteNachrichtSenden() {
+function onNachrichtSendenButton() {
 
-    const payloadObjekt = {
-        nickname  : nickname,
-        nachricht : "(ist jetzt auch dabei)"
-    };
+    const nachricht = inputNachricht.value.trim();
 
-    const payloadString = JSON.stringify( payloadObjekt );
+    nachrichtSenden( nachricht );
 
-    stompClient.publish({
-        destination: destination,
-        body       : payloadString
-    });
-
+    inputNachricht.value = "";
 }

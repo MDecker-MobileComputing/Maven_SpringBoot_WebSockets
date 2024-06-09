@@ -22,9 +22,9 @@ public class UnterhaltungsController {
     private Set<String> _kanalSet = new HashSet<>( 10 );
     
     
-    @MessageMapping( "/chat/{channel}" )
-    @SendTo( "/topic/unterhaltung/{channel}" )
-    public String sendMessage( @DestinationVariable String kanal, 
+    @MessageMapping( "/chat/{kanal}" )
+    @SendTo( "/topic/unterhaltung/{kanal}" )
+    public ChatNachricht sendMessage( @DestinationVariable String kanal, 
                                ChatNachricht chatNachricht ) {
         
         if ( _kanalSet.contains( kanal ) ) {
@@ -40,7 +40,7 @@ public class UnterhaltungsController {
             LOG.info( "Es gibt jetzt {} Kanäle.", _kanalSet.size() );
         }                
         
-        return chatNachricht.toString();
+        return chatNachricht;
     }
     
 }
