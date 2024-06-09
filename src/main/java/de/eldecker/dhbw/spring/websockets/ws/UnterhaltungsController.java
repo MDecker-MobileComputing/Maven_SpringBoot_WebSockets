@@ -13,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import de.eldecker.dhbw.spring.websockets.model.ChatNachricht;
 
 
+/**
+ * Controller für STOMP-Kommunikation für Chat.
+ */
 @Controller
 public class UnterhaltungsController {
 
@@ -22,10 +25,19 @@ public class UnterhaltungsController {
     private Set<String> _kanalSet = new HashSet<>( 10 );
     
     
+    /**
+     * Methode empfängt Nachrichten von einem Client und sendet sie an {@code kanal} weiter.
+     * 
+     * @param kanal Chat-Kanal
+     * 
+     * @param chatNachricht
+     * 
+     * @return
+     */
     @MessageMapping( "/chat/{kanal}" )
     @SendTo( "/topic/unterhaltung/{kanal}" )
     public ChatNachricht sendMessage( @DestinationVariable String kanal, 
-                               ChatNachricht chatNachricht ) {
+                                      ChatNachricht chatNachricht ) {
         
         if ( _kanalSet.contains( kanal ) ) {
         

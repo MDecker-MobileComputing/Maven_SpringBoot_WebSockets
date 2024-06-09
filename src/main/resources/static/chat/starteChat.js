@@ -34,18 +34,18 @@ document.addEventListener( "DOMContentLoaded", function() {
  * Event-Handler für Button "Chat starten".
  */
 function onChatStartenButton() {
-
+        
     const kanalname = eingabeKanalname.value.trim();
-    const nickname  = eingabeNickname.value.trim();
+    if ( kanalname.length < 3 ) {
 
-    if ( kanalname.length === 0 ) {
-
-        alert( "Bitte geben Sie einen Kanalnamen ein." );
+        alert( "Bitte geben Sie einen Kanalnamen mit mindestens drei Zeichen ein." );
         return;
     }
-    if ( nickname.length === 0 ) {
 
-        alert( "Bitte geben Sie einen Nickname ein." );
+    const nickname  = eingabeNickname.value.trim();
+    if ( nickname.length < 3 ) {
+
+        alert( "Bitte geben Sie einen Nickname mit mindestens drei Zeichen ein." );
         return;
     }
 

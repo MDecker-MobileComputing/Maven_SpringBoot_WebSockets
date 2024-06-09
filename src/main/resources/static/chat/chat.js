@@ -9,6 +9,9 @@ let spanKanalname = null;
 /** <span>-Element, in dem der Nickname angezeigt wird. */
 let spanNickname = null;
 
+/** <div>-Element, in dem Chatverlauf angezeigt wird. */
+let divChatverlauf = null;
+
 /** Kanal, dem beigetreten wurde */
 let kanalname = "";
 
@@ -66,6 +69,12 @@ document.addEventListener( "DOMContentLoaded", function() {
         alert( "Konnte das Eingabe-Element für die Nachrichten nicht finden." );
         return;
     }   
+    divChatverlauf = document.getElementById( "chatverlauf" );
+    if ( !divChatverlauf ) {
+
+        alert( "Konnte das Anzeige-Element für den Chatverlauf nicht finden." );
+        return;
+    }
 
     kanalname = holeUrlParameter( "kanalname" );
     if ( kanalname.length === 0 ) {
@@ -144,7 +153,13 @@ function verbindungAufbauen() {
         console.log( "WebSocket-Verbindung aufgebaut: " + frame );
         stompClient.subscribe( subscribeTopic, ( nachricht ) => {
 
-            alert( "Nachricht empfangen: " + nachricht.body );
+            const jsonPayload = JSON.parse( nachricht.body );
+
+            const spanNickname  = `<span class=\"fett\">${jsonPayload.nickname} : </span>`;
+
+            const paragraphNeu = `<p>${spanNickname}${jsonPayload.nachricht}</p>`;
+    
+            divChatverlauf.innerHTML += paragraphNeu;     
         });
         
         nachrichtSenden( "... ist dem Chat beigetreten." );
