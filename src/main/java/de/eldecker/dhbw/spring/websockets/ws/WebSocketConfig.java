@@ -23,6 +23,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      * STOMP-Endpunkt {@code /ws} registrieren. "STOMP" steht für
      * "Simple Text Oriented Messaging Protocol", welches hier über
      * WebSockets verwendet wird.
+     *
+     * @param registry STOMP-Endpunkt-Registrierung, der Endpunkte
+    *                  hinzugefügt werden
      */
     @Override
     public void registerStompEndpoints( StompEndpointRegistry registry ) {
@@ -30,14 +33,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint( "/mein_ws" );
     }
 
+
     /**
-     * Broker für {@code /topic} aktivieren.
+     * Broker für {@code /topic} (mehrere Empfänger) und {@code /queue}
+     * (einzelner Empfänger) aktivieren.
+     *
+     * @param registry Message Broker, der konfiguriert wird
      */
     @Override
-    public void configureMessageBroker( MessageBrokerRegistry config ) {
+    public void configureMessageBroker( MessageBrokerRegistry registry ) {
 
-        config.enableSimpleBroker( "/topic", "/queue" );
-        config.setApplicationDestinationPrefixes( "/app" );
+        registry.enableSimpleBroker( "/topic", "/queue" );
+        registry.setApplicationDestinationPrefixes( "/app" );
     }
 
 }
