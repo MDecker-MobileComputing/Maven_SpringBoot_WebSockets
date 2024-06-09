@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Chat über WebSocket starten</title>
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../wsdemo_stil.css">
+</head>
+<body>
+
+  <h1>Chat über WebSocket starten</h1>
+
+  <p>
+    <label for="input_kanalname" class="fett">Kanalname:</label>
+    <input type="text" id="input_kanalname">
+    <br><br>
+
+    <label for="input_nickname" class="fett">Nickname:</label>
+    <input type="text" id="input_nickname">
+    <br><br>
+
+    <input type="submit" value="Chat starten" onclick="return onChatStartenButton()" >
+    &nbsp;
+    <input type="reset"  value="Zurücksetzen" onclick="return onZuruecksetzenButton()" >
+  </p>
+  <br><br>
+
+  <script src="starteChat.js"></script>
+
+</body>
