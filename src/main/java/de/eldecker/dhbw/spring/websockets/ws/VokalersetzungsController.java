@@ -33,8 +33,9 @@ public class VokalersetzungsController {
     private final static Logger LOG = LoggerFactory.getLogger( VokalersetzungsController.class );
 
     /**
-     * Map bildet Session-ID auf Zähler ab; um zu kontrollieren, dass für eine Sitzung nicht
+     * Map bildet Sitzungs-ID auf Zähler ab; um zu kontrollieren, dass für eine Sitzung nicht
      * mehr als eine bestimmte Anzahl "Übersetzungen" durchgeführt werden.
+     * Beispiel für Sitzungs-ID: {@code e8656a71-eb77-aa66-c50a-ff68cda8d989}
      */
     private Map<String,Integer> _sessionAufZaehlerMap = new HashMap<>( 10 );
 
