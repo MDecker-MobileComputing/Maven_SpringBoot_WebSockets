@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -38,11 +39,23 @@ public class SchlagzeilenSender {
     
     /** Bean, um Java-Objekt mit Jackson in JSON zumzuwandeln. */ 
     private final ObjectMapper _objectMapper;
+        
+    /**  Instanz einer Prototype-Bean um die Anzahl der verschickten Nachrichten zu zählen. */
+    private final Zaehler _zaehler;
     
     /** 
-     * Instanz einer Prototype-Bean um die Anzahl der verschickten Nachrichten zu zählen.
+     * Property aus {@code application.properties}, mit der das Senden von Schlagzeilen abgeschaltet werden kann.
+     * Der Default-Wert ist {@code true}, also ist das regelmäßige Senden von Schlagzeilen standardmäßig
+     * eingeschaltet. 
      */
-    private final Zaehler _zaehler;
+    @Value("${de.eldecker.schlagzeilen.aktiv:true}")
+    private boolean _schlagzeilenSenderAktiv;
+    
+    /** 
+     * Wenn {@link #_schlagzeilenSenderAktiv} den Wert {@code false} hat, dann wird mit dieser Variable
+     * gesteuert, dass eine entsprechende Warnung genau einmal ins Log geschrieben wird.
+     */
+    private boolean _schlagzeilenAbgeschriebenAufLogGeschrieben = false;
 
 
     /**
@@ -83,6 +96,16 @@ public class SchlagzeilenSender {
      */
     @Scheduled( fixedDelay = 5_000, initialDelay = 5_000 )
     public void sendeSchlagzeile() {
+        
+        if ( ! _schlagzeilenSenderAktiv ) {
+            
+            if ( ! _schlagzeilenAbgeschriebenAufLogGeschrieben ) {
+                
+                LOG.warn( "Senden von Schlagzeilen mit Property \"de.eldecker.schlagzeilen.aktiv\" abgeschaltet." );
+                _schlagzeilenAbgeschriebenAufLogGeschrieben = true;
+            }
+            return;
+        }
 
         final Schlagzeile schlagzeile = _schlagzeilenErzeugen.erzeugeZufallsSchlagzeile();
         

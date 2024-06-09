@@ -14,9 +14,9 @@ import de.eldecker.dhbw.spring.websockets.model.ChatNachricht;
 
 
 @Controller
-public class UnterhaltsungController {
+public class UnterhaltungsController {
 
-    private final static Logger LOG = LoggerFactory.getLogger( UnterhaltsungController.class );
+    private final static Logger LOG = LoggerFactory.getLogger( UnterhaltungsController.class );
     
     /** Set mit allen Kanalnamen (ein Element kann in einem Set nicht mehrfach vorkommen). */
     private Set<String> _kanalSet = new HashSet<>( 10 );
@@ -24,7 +24,8 @@ public class UnterhaltsungController {
     
     @MessageMapping( "/chat/{channel}" )
     @SendTo( "/topic/unterhaltung/{channel}" )
-    public String sendMessage( @DestinationVariable String kanal, ChatNachricht chatNachricht ) {
+    public String sendMessage( @DestinationVariable String kanal, 
+                               ChatNachricht chatNachricht ) {
         
         if ( _kanalSet.contains( kanal ) ) {
         

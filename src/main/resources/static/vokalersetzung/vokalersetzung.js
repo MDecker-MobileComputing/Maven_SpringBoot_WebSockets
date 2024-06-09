@@ -80,7 +80,7 @@ document.addEventListener( "DOMContentLoaded", function() {
         alert( "Fehler beim Stomp-Protokoll: " + frame.headers.message );
     };
 
-    stompClient.activate();
+    stompClient.activate(); // nicht vergessen!
 
     console.log( "Seite ist initialisiert." );
 });

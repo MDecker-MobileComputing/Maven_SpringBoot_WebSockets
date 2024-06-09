@@ -20,7 +20,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     /**
-     * STOMP-Endpunkt {@code /ws} registrieren. "STOMP" steht für
+     * STOMP-Endpunkt {@code /mein_ws} registrieren. "STOMP" steht für
      * "Simple Text Oriented Messaging Protocol", welches hier über
      * WebSockets verwendet wird.
      *
@@ -36,7 +36,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     /**
      * Broker für {@code /topic} (mehrere Empfänger) und {@code /queue}
-     * (einzelner Empfänger) aktivieren.
+     * (einzelner Empfänger) aktivieren. Außerdem wird das Prefix
+     * der Destination auf {@code /app} gesetzt; wenn die Clients
+     * Nachrichten senden, dann muss die Destination mit {@code /app}
+     * anfangen, z.B. {@code /app/vokalersetzung_input}.
      *
      * @param registry Message Broker, der konfiguriert wird
      */
