@@ -37,7 +37,7 @@ document.addEventListener( "DOMContentLoaded", function() {
 
     ergebnisseElement = document.getElementById( "ergebnisse" );
     if ( !ergebnisseElement) {
-            
+
         alert( "Konnte das Ergebnis-Element nicht finden." );
         return;
     }
@@ -48,13 +48,15 @@ document.addEventListener( "DOMContentLoaded", function() {
         console.log( "WebSocket-Verbindung aufgebaut: " + frame );
         stompClient.subscribe( "/topic/vokalersetzungs_output", (nachricht) => {
 
+            texteingabeElement.value = "";
+
             ergebnisZaehler++;
 
             const spanZaehler = `<span class="fett">Ergebnis Nr. ${ergebnisZaehler}: </span>`;
 
             const paragraphNeu = `<p>${spanZaehler}${nachricht.body}</p>`;
-    
-            ergebnisseElement.innerHTML += paragraphNeu;  
+
+            ergebnisseElement.innerHTML += paragraphNeu;
         });
     };
 
@@ -83,7 +85,7 @@ function onUmwandelnButton() {
 
         alert( "Bitte geben Sie einen Text ein." );
         return;
-    }    
+    }
 
     const vokal = vokalAuswahl.value;
 
@@ -113,8 +115,10 @@ function onZuruecksetzenButton() {
 
     ergebnisZaehler = 0;
 
-    while ( ergebnisseElement.firstChild ) {
+    const erstesKind = ergebnisseElement.firstChild;
+    while ( erstesKind ) {
 
-        ergebnisseElement.removeChild( ergebnisseElement.firstChild );
+        ergebnisseElement.removeChild( erstesKind );
     }
+
 }

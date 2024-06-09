@@ -24,77 +24,83 @@ import de.eldecker.dhbw.spring.websockets.model.VokalersetzungInput;
 public class VokalersetzungsController {
 
     private final static Logger LOG = LoggerFactory.getLogger( VokalersetzungsController.class );
-    
-    /** 
+
+    /**
      * Map bildet Session-ID auf Zähler ab; um zu kontrollieren, dass für eine Sitzung nicht
-     * mehr als eine bestimmte Anzahl "Übersetzungen" durchgeführt werden. 
+     * mehr als eine bestimmte Anzahl "Übersetzungen" durchgeführt werden.
      */
     private Map<String,Integer> _sessionAufZaehlerMap = new HashMap<>( 10 );
-    
-    
+
+
     /**
      * Controller-Methode für STOMP, die im vom Client gesendeten Text Vokalersetzungen vornimmt.
-     * 
+     * <br><br>
+     *
+     * Beispiel:
+     * <ul>
+     * <li>Input: {@code inputObjekt.text="Hello World"} und {@code inputObjekt.vokal="e"}</li>
+     * <li>Output: "Helle Werld"</li>
+     * </ul>
+     *
      * @param inputObjekt Objekt mit Text und Zielvokal
-     *  
-     * @return Ergebnis String mit "Übersetzungsergebnis", 
-     *         z.B. "Helle Werld" für {@code inputObjekt.text="Hello World"} und 
-     *         {@code inputObjekt.vokal="e"}
+     *
+     * @return Ergebnis String mit "Übersetzungsergebnis"
      */
     @MessageMapping( "/vokalersetzung_input" )
     @SendTo( "/topic/vokalersetzungs_output" )
     public String vokaleErsetzen( VokalersetzungInput inputObjekt,
                                   @Header("simpSessionId") String sessionId )  {
-    
+
         final int anzahlRequests = getRequestZaehler( sessionId );
         if ( anzahlRequests > 3 ) {
-            
+
             return "Sie haben die 3 Übersetzungen schon verbraucht";
         }
-        
+
         final String inputText = inputObjekt.text();
         final char   vokal     = inputObjekt.vokal();
-        
-        LOG.info( "Im folgenden Text sind alle Vokale durch \"{}\" zu ersetzen: \"{}\"", 
+
+        LOG.info( "Im folgenden Text sind alle Vokale durch \"{}\" zu ersetzen: \"{}\"",
                   vokal, inputText );
-        
+
         final String textZumClient = inputText.replaceAll( "[aeiou]", vokal + "" ); // regexp für alle Vokale
 
-        LOG.info( "Sende Ergebnis Vokalersetzung zum Client: \"{}\"", textZumClient ); 
-       
+        LOG.info( "Sende Ergebnis Vokalersetzung zum Client: \"{}\"", textZumClient );
+
         return textZumClient;
     }
 
-    
+
     /**
      * Erhöht den Zähler für die WebSocket/STOMP-Sitzung. Der Zähler wird benötigt,
      * um zu gewährleisten, dass pro Sitzung nur eine bestimmte Anzahl von
      * "Übersetzungen" ausgeführt werden.
-     * 
+     *
      * @param sessionId Session-ID
-     * 
-     * @return Um {@code +1} erhöhter Zähler; wenn {@code sessionId} noch
-     *         nicht bekannt war, dann wird ein Zähler angelegt und {@code 1}
+     *
+     * @return Um {@code +1} erhöhter Zähler für die Sitzung; wenn {@code sessionId}
+     *         noch nicht bekannt war, dann wird ein Zähler angelegt und {@code 1}
      *         zurückgegeben.
      */
     private int getRequestZaehler( String sessionId ) {
-        
+
         if ( _sessionAufZaehlerMap.containsKey( sessionId ) ) {
-            
+
             int zaehler = _sessionAufZaehlerMap.get( sessionId );
             zaehler++;
             _sessionAufZaehlerMap.put( sessionId, zaehler );
-            
-            LOG.info( "Request Nr. {} für SessionId=\"{}\".", zaehler, sessionId );
-            
+
+            LOG.info( "Request Nr. {} für SessionId=\"{}\".",
+                      zaehler, sessionId );
+
             return zaehler;
-            
+
         } else {
-            
+
             LOG.info( "Neuen Zaehler fuer SessionID=\"{}\" angelegt.", sessionId );
             _sessionAufZaehlerMap.put( sessionId, 1 );
             return 1;
         }
     }
-    
+
 }
