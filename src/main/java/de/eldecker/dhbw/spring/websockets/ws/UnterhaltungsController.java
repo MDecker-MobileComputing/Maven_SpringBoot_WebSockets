@@ -14,7 +14,7 @@ import de.eldecker.dhbw.spring.websockets.model.ChatNachricht;
 
 
 /**
- * Controller für STOMP-Kommunikation für Chat.
+ * Controller für Chat in verschiedenen Kanälen mit STOMP über WebSockets.
  */
 @Controller
 public class UnterhaltungsController {
@@ -28,9 +28,10 @@ public class UnterhaltungsController {
     /**
      * Methode empfängt Nachrichten von einem Client und sendet sie an {@code kanal} weiter.
      * 
-     * @param kanal Chat-Kanal
+     * @param kanal Name Chat-Kanal
      * 
-     * @param chatNachricht Objekt enthält Nickname und Nachricht
+     * @param chatNachricht Objekt enthält Nickname und Nachricht; wenn Kanal ganz neu ist,
+     *                      dann wird die Nachricht geändert.
      * 
      * @return {@code chatNachricht}
      */

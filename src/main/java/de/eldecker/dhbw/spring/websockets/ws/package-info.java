@@ -1,4 +1,4 @@
 /**
- * Dieses Paket enthält die Websocket-spezifischen Klassen.
+ * Dieses Paket enthält die WebSocket-spezifischen Klassen.
  */
 package de.eldecker.dhbw.spring.websockets.ws;

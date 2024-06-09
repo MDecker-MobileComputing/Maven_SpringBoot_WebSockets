@@ -15,7 +15,7 @@ public class ChatNachricht {
     private String _nickname = "";
     
     /**
-     * Inhalt der Nachricht
+     * Inhalt der Nachricht.
      */
     private String _nachricht = "";
     
