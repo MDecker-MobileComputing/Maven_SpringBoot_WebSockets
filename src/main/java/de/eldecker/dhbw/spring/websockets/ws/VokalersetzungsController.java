@@ -52,6 +52,8 @@ public class VokalersetzungsController {
      *
      * @param inputObjekt Objekt mit Text und Zielvokal
      *
+     * @param sessionId ID der Nutzersitzung, z.B. {@code e8656a71-eb77-aa66-c50a-ff68cda8d989}
+     *
      * @return Ergebnis String mit "Übersetzungsergebnis", wird an STOMP-Client geschickt.
      */
     @MessageMapping( "/vokalersetzung_input" )
@@ -85,13 +87,17 @@ public class VokalersetzungsController {
      * an das Topic {@code /queue/vokalersetzungs_fehler} gesendet.
      *
      * @param ex Exception-Objekt
+     *
+     * @param sessionId ID der Nutzersitzung, in der der Fehler aufgetreten ist,
+     *                  z.B. {@code e8656a71-eb77-aa66-c50a-ff68cda8d989}
      */
     @MessageExceptionHandler
     @SendToUser( "/queue/vokalersetzungs_fehler" )
-    public String handleException( Throwable ex ) {
+    public String handleException( Throwable ex,
+                                   @Header("simpSessionId") String sessionId ) {
 
-        LOG.error( "Fehler bei Vokalersetzungs: {}",
-                   ex.getMessage() );
+        LOG.error( "Fehler bei Vokalersetzungs in Sitzung \"{}\": {}",
+                   sessionId, ex.getMessage() );
 
         return ex.getMessage();
     }
@@ -102,7 +108,7 @@ public class VokalersetzungsController {
      * um zu gewährleisten, dass pro Sitzung nur eine bestimmte Anzahl von
      * "Übersetzungen" ausgeführt werden.
      *
-     * @param sessionId Session-ID
+     * @param sessionId ID der Nutzersitzung, z.B. {@code e8656a71-eb77-aa66-c50a-ff68cda8d989}
      *
      * @return Um {@code +1} erhöhter Zähler für die Sitzung; wenn {@code sessionId}
      *         noch nicht bekannt war, dann wird ein Zähler angelegt und {@code 1}
