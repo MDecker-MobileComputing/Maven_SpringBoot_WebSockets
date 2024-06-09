@@ -30,9 +30,9 @@ public class UnterhaltungsController {
      * 
      * @param kanal Chat-Kanal
      * 
-     * @param chatNachricht
+     * @param chatNachricht Objekt enthält Nickname und Nachricht
      * 
-     * @return
+     * @return {@code chatNachricht}
      */
     @MessageMapping( "/chat/{kanal}" )
     @SendTo( "/topic/unterhaltung/{kanal}" )
@@ -49,6 +49,8 @@ public class UnterhaltungsController {
             LOG.info( "Nachricht auf neuem  Kanal \"{}\" empfangen: {}", 
                       kanal, chatNachricht );            
 
+            chatNachricht.setNachricht( "Hat einen neuen Kanal gestartet" );
+            
             LOG.info( "Es gibt jetzt {} Kanäle.", _kanalSet.size() );
         }                
         
