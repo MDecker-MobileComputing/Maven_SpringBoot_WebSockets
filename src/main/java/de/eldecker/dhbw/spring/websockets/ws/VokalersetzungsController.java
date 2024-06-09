@@ -1,5 +1,7 @@
 package de.eldecker.dhbw.spring.websockets.ws;
 
+import de.eldecker.dhbw.spring.websockets.model.VokalersetzungsException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
@@ -49,17 +52,18 @@ public class VokalersetzungsController {
      *
      * @param inputObjekt Objekt mit Text und Zielvokal
      *
-     * @return Ergebnis String mit "Übersetzungsergebnis"
+     * @return Ergebnis String mit "Übersetzungsergebnis", wird an STOMP-Client geschickt.
      */
     @MessageMapping( "/vokalersetzung_input" )
     @SendToUser( "/queue/vokalersetzungs_output" )
     public String vokaleErsetzen( VokalersetzungInput inputObjekt,
-                                  @Header("simpSessionId") String sessionId )  {
+                                  @Header("simpSessionId") String sessionId )
+            throws Exception {
 
         final int anzahlRequests = getRequestZaehler( sessionId );
         if ( anzahlRequests > 3 ) {
 
-            return "Sie haben die 3 Übersetzungen schon verbraucht";
+            throw new VokalersetzungsException( "Sie haben die 3 Übersetzungen schon verbraucht." );
         }
 
         final String inputText = inputObjekt.text();
@@ -73,6 +77,23 @@ public class VokalersetzungsController {
         LOG.info( "Sende Ergebnis Vokalersetzung zum Client: \"{}\"", textZumClient );
 
         return textZumClient;
+    }
+
+
+    /**
+     * Exception-Handler für Vokalersetzungsfehler. Es wird eine Fehlermeldung
+     * an das Topic {@code /queue/vokalersetzungs_fehler} gesendet.
+     *
+     * @param ex Exception-Objekt
+     */
+    @MessageExceptionHandler
+    @SendToUser( "/queue/vokalersetzungs_fehler" )
+    public String handleException( Throwable ex ) {
+
+        LOG.error( "Fehler bei Vokalersetzungs: {}",
+                   ex.getMessage() );
+
+        return ex.getMessage();
     }
 
 

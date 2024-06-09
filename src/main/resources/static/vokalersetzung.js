@@ -65,6 +65,10 @@ document.addEventListener( "DOMContentLoaded", function() {
 
             ergebnisseElement.innerHTML += paragraphNeu;
         });
+        stompClient.subscribe( "/user/queue/vokalersetzungs_fehler", (nachricht) => {
+
+            alert( "Fehlermeldung vom Server: " + nachricht.body );
+        });
     };
 
     stompClient.onWebSocketError = ( error ) => {
