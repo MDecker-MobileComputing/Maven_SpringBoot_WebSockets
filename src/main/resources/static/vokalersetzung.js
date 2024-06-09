@@ -53,7 +53,7 @@ document.addEventListener( "DOMContentLoaded", function() {
     stompClient.onConnect = ( frame ) => {
 
         console.log( "WebSocket-Verbindung aufgebaut: " + frame );
-        stompClient.subscribe( "/queue/vokalersetzungs_output", (nachricht) => {
+        stompClient.subscribe( "/user/queue/vokalersetzungs_output", (nachricht) => {
 
             texteingabeElement.value = "";
 
