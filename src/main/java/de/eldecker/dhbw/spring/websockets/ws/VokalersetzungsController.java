@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
@@ -42,9 +41,11 @@ public class VokalersetzungsController {
 
     /**
      * Controller-Methode für STOMP, die im vom Client gesendeten Text Vokalersetzungen vornimmt.
+     * Alle Vokale im übergebenen Text werden durch einen bestimmten anderen Vokal ersetzt
+     * (Prinzip "Drei Chinesen mit dem Kontrabass").
      * <br><br>
      *
-     * Beispiel:
+     * <b>Beispiel:</b>
      * <ul>
      * <li>Input: {@code inputObjekt.text="Hello World"} und {@code inputObjekt.vokal="e"}</li>
      * <li>Output: "Helle Werld"</li>
@@ -56,7 +57,7 @@ public class VokalersetzungsController {
      *
      * @return Ergebnis String mit "Übersetzungsergebnis", wird an STOMP-Client geschickt.
      *
-     * @throws VokalersetzungsException wenn mehr als 3 Anfragen pro Sitzung gestellt werden
+     * @throws VokalersetzungsException wenn mehr als drei Anfragen pro Sitzung gestellt werden
      */
     @MessageMapping( "/vokalersetzung_input" )
     @SendToUser( "/queue/vokalersetzungs_output" )
