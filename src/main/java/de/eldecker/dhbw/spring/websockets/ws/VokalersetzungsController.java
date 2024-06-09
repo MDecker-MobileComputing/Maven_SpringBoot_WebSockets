@@ -19,7 +19,11 @@ import de.eldecker.dhbw.spring.websockets.model.VokalersetzungInput;
  * {@link VokalersetzungInput}-Objekt wird das "Übersetzungsergebnis" zurückgesendet.
  * <br><br>
  *
- * siehe auch <a href="https://spring.io/guides/gs/messaging-stomp-websocket/">dieses Tutorial</a>
+ * <b>Referenzen:</b>
+ * <ul>
+ * <li><a href="https://spring.io/guides/gs/messaging-stomp-websocket/">Offizielles Tutorial auf <i>spring.io</i></a></li>
+ * <li><a href="https://www.baeldung.com/spring-websockets-sendtouser" >Tutorial auf <i>baeldung.com</i></a></li>
+ * </ul>
  */
 @Controller
 public class VokalersetzungsController {
