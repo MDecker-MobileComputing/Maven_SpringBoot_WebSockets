@@ -42,19 +42,26 @@ document.addEventListener( "DOMContentLoaded", function() {
         return;
     }
 
-    stompClient = new StompJs.Client({ brokerURL: "ws://localhost:8080/mein_ws" });
+    stompClient = new StompJs.Client({
+        brokerURL: "ws://localhost:8080/mein_ws" ,
+        debug: function( text) { console.log( "STOMP-Debug-Info: " + text ); },
+        reconnectDelay   : 5000, // Millisekunden
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000
+
+    });
     stompClient.onConnect = ( frame ) => {
 
         console.log( "WebSocket-Verbindung aufgebaut: " + frame );
-        stompClient.subscribe( "/topic/vokalersetzungs_output", (nachricht) => {
+        stompClient.subscribe( "/queue/vokalersetzungs_output", (nachricht) => {
 
             texteingabeElement.value = "";
 
             ergebnisZaehler++;
 
-            const spanZaehler = `<span class="fett">Ergebnis Nr. ${ergebnisZaehler}: </span>`;
+            const spanNeu = `<span class="fett">Ergebnis Nr. ${ergebnisZaehler}: </span>`;
 
-            const paragraphNeu = `<p>${spanZaehler}${nachricht.body}</p>`;
+            const paragraphNeu = `<p>${spanNeu}${nachricht.body}</p>`;
 
             ergebnisseElement.innerHTML += paragraphNeu;
         });

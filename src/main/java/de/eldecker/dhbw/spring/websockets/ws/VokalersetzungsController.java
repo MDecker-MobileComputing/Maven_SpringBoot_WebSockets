@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 import de.eldecker.dhbw.spring.websockets.model.VokalersetzungInput;
@@ -47,7 +48,7 @@ public class VokalersetzungsController {
      * @return Ergebnis String mit "Übersetzungsergebnis"
      */
     @MessageMapping( "/vokalersetzung_input" )
-    @SendTo( "/topic/vokalersetzungs_output" )
+    @SendToUser( "/queue/vokalersetzungs_output" )
     public String vokaleErsetzen( VokalersetzungInput inputObjekt,
                                   @Header("simpSessionId") String sessionId )  {
 
@@ -97,8 +98,11 @@ public class VokalersetzungsController {
 
         } else {
 
-            LOG.info( "Neuen Zaehler fuer SessionID=\"{}\" angelegt.", sessionId );
+            LOG.info( "Neuen Zaehler fuer SessionID=\"{}\" angelegt.",
+                      sessionId );
+
             _sessionAufZaehlerMap.put( sessionId, 1 );
+
             return 1;
         }
     }
