@@ -55,12 +55,14 @@ public class VokalersetzungsController {
      * @param sessionId ID der Nutzersitzung, z.B. {@code e8656a71-eb77-aa66-c50a-ff68cda8d989}
      *
      * @return Ergebnis String mit "Übersetzungsergebnis", wird an STOMP-Client geschickt.
+     *
+     * @throws VokalersetzungsException wenn mehr als 3 Anfragen pro Sitzung gestellt werden
      */
     @MessageMapping( "/vokalersetzung_input" )
     @SendToUser( "/queue/vokalersetzungs_output" )
     public String vokaleErsetzen( VokalersetzungInput inputObjekt,
                                   @Header("simpSessionId") String sessionId )
-            throws Exception {
+            throws VokalersetzungsException {
 
         final int anzahlRequests = getRequestZaehler( sessionId );
         if ( anzahlRequests > 3 ) {
