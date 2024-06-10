@@ -1,7 +1,5 @@
 package de.eldecker.dhbw.spring.websockets.logik;
 
-import static java.util.Collections.emptyList;
-
 import de.eldecker.dhbw.spring.websockets.model.Schlagzeile;
 
 import java.util.Random;
