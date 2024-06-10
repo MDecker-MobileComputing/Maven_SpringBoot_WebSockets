@@ -25,7 +25,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      * WebSockets verwendet wird.
      *
      * @param registry STOMP-Endpunkt-Registrierung, der Endpunkte
-    *                  hinzugefügt werden
+     *                 hinzugefügt werden
      */
     @Override
     public void registerStompEndpoints( StompEndpointRegistry registry ) {
