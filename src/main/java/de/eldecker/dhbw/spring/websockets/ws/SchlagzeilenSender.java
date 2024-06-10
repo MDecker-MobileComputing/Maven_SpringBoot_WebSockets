@@ -44,9 +44,9 @@ public class SchlagzeilenSender {
     private final Zaehler _zaehler;
     
     /** 
-     * Property aus {@code application.properties}, mit der das Senden von Schlagzeilen abgeschaltet werden kann.
-     * Der Default-Wert ist {@code true}, also ist das regelmäßige Senden von Schlagzeilen standardmäßig
-     * eingeschaltet. 
+     * Property aus {@code application.properties}, mit der das Senden von Schlagzeilen abgeschaltet 
+     * werden kann. Der Default-Wert ist {@code true}, also ist das regelmäßige Senden von Schlagzeilen 
+     * standardmäßig eingeschaltet.  
      */
     @Value("${de.eldecker.schlagzeilen.aktiv:true}")
     private boolean _schlagzeilenSenderAktiv;
