@@ -2,8 +2,12 @@
 
 <br>
 
-Demo für [WebSockets](https://www.ionos.de/digitalguide/websites/web-entwicklung/was-ist-websocket/) 
-mit einer "Spring Boot"-Anwendung als Backend.
+Demo für [WebSockets](https://www.ionos.de/digitalguide/websites/web-entwicklung/was-ist-websocket/)
+mit einer "Spring Boot"-Anwendung als Backend:
+
+* Schlagzeilen zu Webseite "pushen"
+* Vokalersetzung
+* Mehrnutzer-Chat
 
 <br>
 
