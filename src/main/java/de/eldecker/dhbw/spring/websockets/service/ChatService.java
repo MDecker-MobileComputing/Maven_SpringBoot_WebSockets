@@ -1,7 +1,9 @@
 package de.eldecker.dhbw.spring.websockets.service;
 
 import static java.time.LocalDateTime.now;
+import static java.util.Collections.emptyList;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -45,7 +47,8 @@ public class ChatService {
         final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findByName( chatKanalName );
         if ( kanalOptional.isEmpty() ) {
             
-            LOG.error( "Kein Chat-Kanal mit Name \"{}\" gefunden.", chatKanalName );
+            LOG.error( "Kein Chat-Kanal mit Name \"{}\" gefunden, kann Beitrag nicht speichern.", 
+                       chatKanalName );
             return;
         }
         
@@ -59,6 +62,25 @@ public class ChatService {
         
         LOG.info( "Chat-Beitrag von \"{}\" auf Kanal \"{}\" gespeichert.", 
                   chatNachricht.getNickname(), chatKanalName );                  
+    }
+    
+    
+    public List<ChatBeitragEntity> getAlleBeitraegeKanal( String chatKanalName ) {
+        
+        final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findByName( chatKanalName );
+        if ( kanalOptional.isEmpty() ) {
+            
+            LOG.error( "Kein Chat-Kanal mit Name \"{}\" gefunden, kann nicht Liste aller Beiträge liefern.", 
+                       chatKanalName );
+            
+           return emptyList();
+        }
+        
+        final ChatKanalEntity chatKanal = kanalOptional.get();
+        
+        final List<ChatBeitragEntity> beitraegeList = _chatBeitragRepo.findByChatKanal( chatKanal);
+        
+        return beitraegeList;        
     }
     
 }

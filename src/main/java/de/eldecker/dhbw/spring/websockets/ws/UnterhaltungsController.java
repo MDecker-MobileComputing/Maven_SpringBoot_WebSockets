@@ -22,50 +22,50 @@ import de.eldecker.dhbw.spring.websockets.service.ChatService;
 public class UnterhaltungsController {
 
     private final static Logger LOG = LoggerFactory.getLogger( UnterhaltungsController.class );
-    
+
     /** Set mit allen Kanalnamen (ein Element kann in einem Set nicht mehrfach vorkommen). */
     private Set<String> _kanalSet = new HashSet<>( 10 );
-    
+
     @Autowired
     private ChatService _chatService;
-    
-    
+
+
     /**
      * Methode empfängt Nachrichten von einem Client und sendet sie an {@code kanal} weiter.
-     * 
+     *
      * @param kanal Name Chat-Kanal
-     * 
+     *
      * @param chatNachricht Objekt enthält Nickname und Nachricht; wenn Kanal ganz neu ist,
      *                      dann wird die Nachricht geändert.
-     * 
+     *
      * @return {@code chatNachricht}
      */
     @MessageMapping( "/chat/{kanal}" )
     @SendTo( "/topic/unterhaltung/{kanal}" )
-    public ChatNachricht sendMessage( @DestinationVariable String kanal, 
+    public ChatNachricht sendMessage( @DestinationVariable String kanal,
                                       ChatNachricht chatNachricht ) {
-        
+
         if ( _kanalSet.contains( kanal ) ) {
-        
-            LOG.info( "Nachricht auf bestehendem Kanal \"{}\" empfangen: {}", 
-                      kanal, chatNachricht );            
-            
-            _chatService.neuerChatBeitrag(kanal, chatNachricht);
-            
+
+            LOG.info( "Nachricht auf bestehendem Kanal \"{}\" empfangen: {}",
+                      kanal, chatNachricht );
+
+            _chatService.neuerChatBeitrag( kanal, chatNachricht );
+
         } else {
-            
+
             _kanalSet.add( kanal );
-            LOG.info( "Nachricht auf neuem  Kanal \"{}\" empfangen: {}", 
-                      kanal, chatNachricht );            
-            
+            LOG.info( "Nachricht auf neuem  Kanal \"{}\" empfangen: {}",
+                      kanal, chatNachricht );
+
             _chatService.neuerChatKanal( kanal );
 
             chatNachricht.setNachricht( "Hat einen neuen Kanal gestartet" );
-            
+
             LOG.info( "Es gibt jetzt {} Kanäle.", _kanalSet.size() );
-        }                
-        
+        }
+
         return chatNachricht;
     }
-    
+
 }
