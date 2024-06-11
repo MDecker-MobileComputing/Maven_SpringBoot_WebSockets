@@ -33,5 +33,7 @@ build/
 .vscode/
 
 
-# eigene Erweiterungen
+## Eigene Einträge
 *.log
+*.gz
+*.db

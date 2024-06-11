@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>WebSocket-Chat: Alle Nachrichten für Chat-Kanal</title>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="../../wsdemo_stil.css">
+</head>
+<body>
+
+    <h1>Alle Nachrichten für Chat-Kanal:
+        <span th:text="${chatKanal.getName()}"></span>
+    </h1>
+
+    <p>Anzahl Chat-Beiträge im Kanal:
+       <span th:text="${#lists.size(beitragListe)}"></span>
+    </p>
+    <br><br>
+
+    <p th:each="beitrag : ${beitragListe}">
+        <span th:text="${beitrag.getNickname()} + ': '" class="fett"></span>
+        <span th:text="${beitrag.getNachricht()}"></span>
+    </p>
+    <br><br>
+
+    <a th:href="'./chat-kanal-loeschen?uuid=' + ${chatKanal.getId()}">
+        Chat-Kanal mit allen Beiträgen löschen
+    </a>
+    <br><br>
+
+    <a href="./chat-kanal-liste">Zurück zur Liste aller Chat-Kanäle</a>
+
+</body>

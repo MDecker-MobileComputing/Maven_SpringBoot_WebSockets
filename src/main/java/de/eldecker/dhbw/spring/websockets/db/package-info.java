@@ -1,0 +1,1 @@
+package de.eldecker.dhbw.spring.websockets.db;
