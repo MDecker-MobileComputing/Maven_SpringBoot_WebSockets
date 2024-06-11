@@ -1,5 +1,6 @@
 package de.eldecker.dhbw.spring.websockets.db;
 
+import static jakarta.persistence.CascadeType.REMOVE;
 import static java.time.Month.JANUARY;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +36,7 @@ public class ChatKanalEntity {
     @Column( nullable = false )
     private LocalDateTime gestartet;
 
-    @OneToMany( mappedBy = "chatKanal" )
+    @OneToMany( mappedBy = "chatKanal", cascade = REMOVE )
     @OrderBy( "id ASC" )
     private List<ChatBeitragEntity> beitraege = new ArrayList<>( 10 );
 
