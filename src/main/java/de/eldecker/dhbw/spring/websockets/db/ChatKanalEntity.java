@@ -8,7 +8,6 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,6 +35,12 @@ public class ChatKanalEntity {
     @Column( nullable = false )
     private LocalDateTime gestartet;
 
+    /**
+     * Attribut {@code cascade} von Annotation {@code OneToMany} muss
+     * auf {@code REMOVE} gesetzt werden, damit die zugehörigen 
+     * {@link ChatBeitragEntity}-Objekte auch gelöscht werden, wenn
+     * ein {@link ChatKanalEntity}-Objekt gelöscht wird.
+     */
     @OneToMany( mappedBy = "chatKanal", cascade = REMOVE )
     @OrderBy( "id ASC" )
     private List<ChatBeitragEntity> beitraege = new ArrayList<>( 10 );

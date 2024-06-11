@@ -7,6 +7,8 @@ import de.eldecker.dhbw.spring.websockets.model.ChatException;
 import de.eldecker.dhbw.spring.websockets.service.ChatService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,19 +29,6 @@ public class ThymeleafController {
     private ChatKanalRepo _chatKanalRepo;
 
 
-    @GetMapping( "/chat-kanal-historie" )
-    public String chatKanalHistorie( Model model,
-                                     @RequestParam( value = "kanalname", required = true ) String kanalname ) {
-
-        final List<ChatBeitragEntity> beitragListe =  _chatService.getAlleBeitraegeKanal( kanalname );
-
-        model.addAttribute( "chatKanalName", kanalname    );
-        model.addAttribute( "beitragListe" , beitragListe );
-
-        return "chat-kanal-historie";
-    }
-
-
     @GetMapping( "/chat-kanal-liste" )
     public String chatKanalListe ( Model model ) {
 
@@ -48,6 +37,26 @@ public class ThymeleafController {
         model.addAttribute( "chatKanalListe", chatKanalListe );
 
         return "chat-kanal-liste";
+    }
+
+    
+    @GetMapping( "/chat-kanal-historie" )
+    public String chatKanalHistorie( Model model,
+                                     @RequestParam( value = "uuid", required = true ) UUID uuid) 
+                throws ChatException {
+
+        final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findById( uuid );
+        if ( kanalOptional.isEmpty() ) {
+            
+            throw new ChatException( "Chat-Kanal mit UUID=" + uuid + " nicht gefunden" );
+        }
+        
+        final ChatKanalEntity kanalEntity = kanalOptional.get();
+
+        model.addAttribute( "chatKanal"    , kanalEntity                );
+        model.addAttribute( "beitragListe" , kanalEntity.getBeitraege() );
+
+        return "chat-kanal-historie";
     }
 
 

@@ -8,7 +8,9 @@
 </head>
 <body>
 
-    <h1>Alle Nachrichten für Chat-Kanal: <span th:text="${chatKanalName}"></span></h1>
+    <h1>Alle Nachrichten für Chat-Kanal:
+        <span th:text="${chatKanal.getName()}"></span>
+    </h1>
 
     <p>Anzahl Chat-Beiträge im Kanal:
        <span th:text="${#lists.size(beitragListe)}"></span>

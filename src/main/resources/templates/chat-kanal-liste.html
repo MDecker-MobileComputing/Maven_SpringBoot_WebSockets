@@ -17,11 +17,8 @@
 
      <p th:each="chatKanal : ${chatKanalListe}">
 
-        <a th:href="'./chat-kanal-historie?kanalname=' + ${chatKanal.getName()}"
+        <a th:href="'./chat-kanal-historie?uuid=' + ${chatKanal.getId()}"
            th:text="${chatKanal.getName()}"></a>
-           –
-        <a th:href="'./chat-kanal-loeschen?kanalname=' + ${chatKanal.getName()}">Löschen</th:href>
-
      </p>
 
 </body>
