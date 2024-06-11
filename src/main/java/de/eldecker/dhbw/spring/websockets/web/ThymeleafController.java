@@ -23,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ThymeleafController {
 
     @Autowired
-    private ChatService _chatService;
-
-    @Autowired
     private ChatKanalRepo _chatKanalRepo;
 
 
@@ -42,7 +39,7 @@ public class ThymeleafController {
     
     @GetMapping( "/chat-kanal-historie" )
     public String chatKanalHistorie( Model model,
-                                     @RequestParam( value = "uuid", required = true ) UUID uuid) 
+                                     @RequestParam( value = "uuid", required = true ) UUID uuid ) 
                 throws ChatException {
 
         final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findById( uuid );
@@ -62,21 +59,27 @@ public class ThymeleafController {
 
     @GetMapping( "/chat-kanal-loeschen" )
     public String chatKanalLoeschen( Model model,
-                                     @RequestParam( value = "kanalname",
-                                                    required = true ) String kanalname ) {
-        try {
-
-            _chatService.chatKanalLoeschen( kanalname ); // throws ChatException
-
-            model.addAttribute( "meldung", "Chat-Kanal \"" + kanalname + "\" wurde gelöscht." );
-
+                                     @RequestParam( value = "uuid", required = true ) UUID uuid ) 
+                      throws ChatException{
+        
+        
+        final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findById( uuid );
+        
+        if ( kanalOptional.isEmpty() ) {
+            
+            throw new ChatException( "Zu loeschender Kanal mit UUID=" + uuid + " nicht gefunden" );
         }
-        catch ( ChatException ex ) {
-
-            model.addAttribute( "meldung",
-                                "Zu löschender Chat-Kanal \"" + kanalname + "\" + wurde nicht gefunden." );
-        }
-
+        
+        final ChatKanalEntity kanalEntity = kanalOptional.get();
+        
+        final String chatKanalName = kanalEntity.getName();
+        final int anzahlBeitraege  = kanalEntity.getBeitraege().size();
+        
+        _chatKanalRepo.delete( kanalEntity );
+                
+        model.addAttribute( "meldung", 
+                            "Chat-Kanal \"" + chatKanalName + "\" mit " + anzahlBeitraege + " wurde gelöscht." );
+        
         return "chat-kanal-loesch-ergebnis";
     }
 
