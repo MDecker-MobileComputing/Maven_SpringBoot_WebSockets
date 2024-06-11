@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>WebSocket-Chat: Alle Chat-Kanäle</title>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="../../wsdemo_stil.css">
+</head>
+<body>
+
+    <h1>Alle Chat-Kanäle</h1>
+
+    <p>Anzahl Chat-Kanäle:
+        <span th:text="${#lists.size(chatKanalListe)}"></span>
+     </p>
+     <br><br>
+
+     <p th:each="chatKanal : ${chatKanalListe}">
+
+        <a th:href="'./chat-kanal-historie?kanalname=' + ${chatKanal.getName()}"
+           th:text="${chatKanal.getName()}"></a>
+     </p>
+
+</body>

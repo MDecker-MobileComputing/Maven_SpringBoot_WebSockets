@@ -77,10 +77,8 @@ public class ChatService {
         }
         
         final ChatKanalEntity chatKanal = kanalOptional.get();
-        
-        final List<ChatBeitragEntity> beitraegeList = _chatBeitragRepo.findByChatKanal( chatKanal);
-        
-        return beitraegeList;        
+                
+        return chatKanal.getBeitraege();        
     }
     
 }

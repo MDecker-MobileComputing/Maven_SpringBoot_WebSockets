@@ -1,7 +1,8 @@
 package de.eldecker.dhbw.spring.websockets.web;
 
 import de.eldecker.dhbw.spring.websockets.db.ChatBeitragEntity;
-import de.eldecker.dhbw.spring.websockets.db.ChatBeitragRepo;
+import de.eldecker.dhbw.spring.websockets.db.ChatKanalEntity;
+import de.eldecker.dhbw.spring.websockets.db.ChatKanalRepo;
 import de.eldecker.dhbw.spring.websockets.service.ChatService;
 
 import java.util.List;
@@ -21,6 +22,10 @@ public class ThymeleafController {
     @Autowired
     private ChatService _chatService;
     
+    @Autowired
+    private ChatKanalRepo _chatKanalRepo;
+    
+    
     @GetMapping( "/chat-kanal-historie" )
     public String chatKanalHistorie( Model model,
                                      @RequestParam( value = "kanalname" ) String kanalname ) {
@@ -31,6 +36,17 @@ public class ThymeleafController {
         model.addAttribute( "beitragListe" , beitragListe );
                         
         return "chat-kanal-historie";
+    }
+    
+    
+    @GetMapping( "/chat-kanal-liste" )
+    public String chatKanalListe ( Model model ) {
+    
+        final List<ChatKanalEntity> chatKanalListe = _chatKanalRepo.findAllByOrderByNameAsc();
+                
+        model.addAttribute( "chatKanalListe", chatKanalListe );
+        
+        return "chat-kanal-liste";
     }
     
 }

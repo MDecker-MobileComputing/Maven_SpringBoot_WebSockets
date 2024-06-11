@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>WebSocket-Chat: alle Nachrichten für Chat-Kanal</title>
+<title>WebSocket-Chat: Alle Nachrichten für Chat-Kanal</title>
 <meta charset="utf-8" >
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="../../wsdemo_stil.css">
@@ -19,6 +19,8 @@
         <span th:text="${beitrag.getNickname()} + ': '" class="fett"></span>
         <span th:text="${beitrag.getNachricht()}"></span>
     </p>
+    <br><br>
 
+    <a href="./chat-kanal-liste">Zurück zur Liste aller Chat-Kanäle</a>
 
 </body>
