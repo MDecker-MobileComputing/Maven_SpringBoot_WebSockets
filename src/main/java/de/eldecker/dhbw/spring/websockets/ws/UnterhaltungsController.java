@@ -5,12 +5,14 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 import de.eldecker.dhbw.spring.websockets.model.ChatNachricht;
+import de.eldecker.dhbw.spring.websockets.service.ChatService;
 
 
 /**
@@ -23,6 +25,9 @@ public class UnterhaltungsController {
     
     /** Set mit allen Kanalnamen (ein Element kann in einem Set nicht mehrfach vorkommen). */
     private Set<String> _kanalSet = new HashSet<>( 10 );
+    
+    @Autowired
+    private ChatService _chatService;
     
     
     /**
@@ -44,11 +49,16 @@ public class UnterhaltungsController {
         
             LOG.info( "Nachricht auf bestehendem Kanal \"{}\" empfangen: {}", 
                       kanal, chatNachricht );            
+            
+            _chatService.neuerChatBeitrag(kanal, chatNachricht);
+            
         } else {
             
             _kanalSet.add( kanal );
             LOG.info( "Nachricht auf neuem  Kanal \"{}\" empfangen: {}", 
                       kanal, chatNachricht );            
+            
+            _chatService.neuerChatKanal( kanal );
 
             chatNachricht.setNachricht( "Hat einen neuen Kanal gestartet" );
             
