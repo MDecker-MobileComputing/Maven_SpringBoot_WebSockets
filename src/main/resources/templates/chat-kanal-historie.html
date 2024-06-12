@@ -15,6 +15,9 @@
     <p>Anzahl Chat-Beiträge im Kanal:
        <span th:text="${#lists.size(beitragListe)}"></span>
     </p>
+    <p>Erster Beitrag:
+        <span th:text="${ersterBeitragZeitpunkt}"></span>
+    </p>
     <br><br>
 
     <p th:each="beitrag : ${beitragListe}">

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -79,6 +80,14 @@ public class ChatKanalEntity {
     public void setBeitraege( List<ChatBeitragEntity> beitraege ) {
 
         this.beitraege = beitraege;
+    }
+
+
+    public Optional<LocalDateTime> getFruehesterBeitragZeitpunkt() {
+
+        return this.beitraege.stream()
+                             .map( ChatBeitragEntity::getZeitpunkt )
+                             .min( LocalDateTime::compareTo );
     }
 
     @Override

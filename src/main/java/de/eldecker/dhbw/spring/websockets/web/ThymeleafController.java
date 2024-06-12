@@ -8,6 +8,8 @@ import de.eldecker.dhbw.spring.websockets.db.ChatKanalRepo;
 import de.eldecker.dhbw.spring.websockets.model.ChatException;
 import de.eldecker.dhbw.spring.websockets.service.ChatService;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,6 +33,9 @@ public class ThymeleafController {
 
     @Autowired
     private ChatKanalRepo _chatKanalRepo;
+
+    @Autowired
+    private DateTimeFormatter _datumZeitFormatierer;
 
 
     @GetMapping( "/chat-kanal-liste" )
@@ -56,6 +61,19 @@ public class ThymeleafController {
         }
 
         final ChatKanalEntity kanalEntity = kanalOptional.get();
+
+        final Optional<LocalDateTime> zeitpunktOptional = kanalEntity.getFruehesterBeitragZeitpunkt();
+        if ( zeitpunktOptional.isPresent() ) {
+
+            final LocalDateTime zeitpunkt = zeitpunktOptional.get();
+            final String zeitpunktStr = _datumZeitFormatierer.format( zeitpunkt );
+
+            model.addAttribute( "ersterBeitragZeitpunkt", zeitpunktStr );
+        }
+        else {
+
+            model.addAttribute( "ersterBeitragZeitpunkt", "???" );
+        }
 
         model.addAttribute( "chatKanal"    , kanalEntity                );
         model.addAttribute( "beitragListe" , kanalEntity.getBeitraege() );
