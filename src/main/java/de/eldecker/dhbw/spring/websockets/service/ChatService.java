@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.eldecker.dhbw.spring.websockets.db.ChatBeitragEntity;
-import de.eldecker.dhbw.spring.websockets.db.ChatBeitragRepo;
-import de.eldecker.dhbw.spring.websockets.db.ChatKanalEntity;
-import de.eldecker.dhbw.spring.websockets.db.ChatKanalRepo;
+import de.eldecker.dhbw.spring.websockets.db.entities.ChatBeitragEntity;
+import de.eldecker.dhbw.spring.websockets.db.entities.ChatKanalEntity;
+import de.eldecker.dhbw.spring.websockets.db.repos.ChatBeitragRepo;
+import de.eldecker.dhbw.spring.websockets.db.repos.ChatKanalRepo;
 import de.eldecker.dhbw.spring.websockets.model.ChatException;
 import de.eldecker.dhbw.spring.websockets.model.ChatNachricht;
 

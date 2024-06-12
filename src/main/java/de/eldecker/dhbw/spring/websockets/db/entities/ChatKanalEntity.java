@@ -1,7 +1,6 @@
-package de.eldecker.dhbw.spring.websockets.db;
+package de.eldecker.dhbw.spring.websockets.db.entities;
 
 import static jakarta.persistence.CascadeType.REMOVE;
-import static java.time.Month.JANUARY;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

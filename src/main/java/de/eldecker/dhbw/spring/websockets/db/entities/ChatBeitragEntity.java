@@ -1,4 +1,4 @@
-package de.eldecker.dhbw.spring.websockets.db;
+package de.eldecker.dhbw.spring.websockets.db.entities;
 
 import static jakarta.persistence.FetchType.EAGER;
 import static java.lang.String.format;

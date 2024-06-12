@@ -2,8 +2,8 @@ package de.eldecker.dhbw.spring.websockets.web;
 
 import static java.lang.String.format;
 
-import de.eldecker.dhbw.spring.websockets.db.ChatKanalEntity;
-import de.eldecker.dhbw.spring.websockets.db.ChatKanalRepo;
+import de.eldecker.dhbw.spring.websockets.db.entities.ChatKanalEntity;
+import de.eldecker.dhbw.spring.websockets.db.repos.ChatKanalRepo;
 import de.eldecker.dhbw.spring.websockets.model.ChatException;
 
 import java.time.LocalDateTime;
