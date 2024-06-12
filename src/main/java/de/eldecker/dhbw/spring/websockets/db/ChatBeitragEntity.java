@@ -34,6 +34,10 @@ public class ChatBeitragEntity {
     @Column( nullable = false )
     private String nachricht;
 
+    /** 
+     * Zeitpunkt des Beitrags, wird benötigt für Sortierung der Beiträge auf Übersichts-Seite zu Kanal
+     * und zur Anzeige erste Beitrag.
+     */
     @Column( nullable = false )
     private LocalDateTime zeitpunkt;
 

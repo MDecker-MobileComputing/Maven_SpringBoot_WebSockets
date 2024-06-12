@@ -2,11 +2,9 @@ package de.eldecker.dhbw.spring.websockets.web;
 
 import static java.lang.String.format;
 
-import de.eldecker.dhbw.spring.websockets.db.ChatBeitragEntity;
 import de.eldecker.dhbw.spring.websockets.db.ChatKanalEntity;
 import de.eldecker.dhbw.spring.websockets.db.ChatKanalRepo;
 import de.eldecker.dhbw.spring.websockets.model.ChatException;
-import de.eldecker.dhbw.spring.websockets.service.ChatService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -85,8 +83,7 @@ public class ThymeleafController {
     @GetMapping( "/chat-kanal-loeschen" )
     public String chatKanalLoeschen( Model model,
                                      @RequestParam( value = "uuid", required = true ) UUID uuid )
-                      throws ChatException{
-
+                      throws ChatException {
 
         final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findById( uuid );
 
