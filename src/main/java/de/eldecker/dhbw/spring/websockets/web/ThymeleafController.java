@@ -86,7 +86,6 @@ public class ThymeleafController {
                       throws ChatException {
 
         final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findById( uuid );
-
         if ( kanalOptional.isEmpty() ) {
 
             throw new ChatException( "Zu loeschender Kanal mit UUID=" + uuid + " nicht gefunden" );
