@@ -3,9 +3,10 @@ package de.eldecker.dhbw.spring.websockets.db;
 import static jakarta.persistence.CascadeType.REMOVE;
 import static java.time.Month.JANUARY;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -85,6 +86,11 @@ public class ChatKanalEntity {
 
         return String.format( "Chat-Kanal mit Name \"%s\" und %d Beiträgen.",
                               name, beitraege.size() );
+    }
+
+    public int hashCode() {
+
+        return Objects.hash( name, beitraege );
     }
 
 }
