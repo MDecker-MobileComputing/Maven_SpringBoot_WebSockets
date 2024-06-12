@@ -32,10 +32,14 @@ public class ChatBeitragEntity {
     @Column( nullable = false )
     private String nickname;
 
-    @Column( nullable = false )
+    /**
+     * Mit Annotations-Attribut {@code length} wird als max. Länge 4.000 Zeichen festgelegt
+     * (Default-Wert: 255 Zeichen)
+     */
+    @Column( nullable = false, length = 4000 )
     private String nachricht;
 
-    /** 
+    /**
      * Zeitpunkt des Beitrags, wird benötigt für Sortierung der Beiträge auf Übersichts-Seite zu Kanal
      * und zur Anzeige erste Beitrag.
      */
