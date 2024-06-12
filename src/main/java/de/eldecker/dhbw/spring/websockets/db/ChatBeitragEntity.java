@@ -1,6 +1,7 @@
 package de.eldecker.dhbw.spring.websockets.db;
 
 import static jakarta.persistence.FetchType.EAGER;
+import static java.lang.String.format;
 import static java.time.Month.JANUARY;
 
 import java.time.LocalDateTime;
@@ -106,5 +107,12 @@ public class ChatBeitragEntity {
         this.chatKanal = chatKanal;
     }
 
+    @Override
+    public String toString() {
+
+        final String str = format( "Chat-Beitrag von \"%s\" im Kanal \"%s\": \"%s\"",
+                                   nickname, chatKanal.getName(), nachricht );
+        return str;
+    }
 
 }

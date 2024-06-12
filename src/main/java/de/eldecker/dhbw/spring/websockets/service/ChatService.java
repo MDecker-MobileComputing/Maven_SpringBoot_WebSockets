@@ -61,8 +61,7 @@ public class ChatService {
                                                            now() );
         beitrag = _chatBeitragRepo.save( beitrag );
 
-        LOG.info( "Chat-Beitrag von \"{}\" auf Kanal \"{}\" gespeichert.",
-                  chatNachricht.getNickname(), chatKanalName );
+        LOG.info( "Chat-Beitrag gespeichert: {}", beitrag );
     }
 
 

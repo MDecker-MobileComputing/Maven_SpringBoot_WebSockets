@@ -80,4 +80,11 @@ public class ChatKanalEntity {
         this.beitraege = beitraege;
     }
 
+    @Override
+    public String toString() {
+
+        return String.format( "Chat-Kanal mit Name \"%s\" und %d Beiträgen.",
+                              name, beitraege.size() );
+    }
+
 }
