@@ -69,7 +69,7 @@ public class ChatNachricht {
     @Override
     public String toString() {
         
-        return "Nachricht von \"" + _nickname + "\": " + _nachricht;
+        return "Nachricht von \"" + _nickname + "\": \"" + _nachricht + "\"";
     }
 
     @Override

@@ -1,8 +1,5 @@
 package de.eldecker.dhbw.spring.websockets.ws;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,46 +20,40 @@ public class UnterhaltungsController {
 
     private final static Logger LOG = LoggerFactory.getLogger( UnterhaltungsController.class );
 
-    /** Set mit allen Kanalnamen (ein Element kann in einem Set nicht mehrfach vorkommen). */
-    private Set<String> _kanalSet = new HashSet<>( 10 );
-
     @Autowired
     private ChatService _chatService;
 
 
     /**
-     * Methode empfängt Nachrichten von einem Client und sendet sie an {@code kanal} weiter.
+     * Methode empfängt Nachrichten von einem Client und sendet sie an {@code kanalName} weiter.
      *
-     * @param kanal Name Chat-Kanal
+     * @param kanalName Name Chat-Kanal
      *
      * @param chatNachricht Objekt enthält Nickname und Nachricht; wenn Kanal ganz neu ist,
      *                      dann wird die Nachricht geändert.
      *
      * @return {@code chatNachricht}
      */
-    @MessageMapping( "/chat/{kanal}" )
-    @SendTo( "/topic/unterhaltung/{kanal}" )
-    public ChatNachricht sendMessage( @DestinationVariable String kanal,
+    @MessageMapping( "/chat/{kanalName}" )
+    @SendTo( "/topic/unterhaltung/{kanalName}" )
+    public ChatNachricht sendMessage( @DestinationVariable String kanalName,
                                       ChatNachricht chatNachricht ) {
 
-        if ( _kanalSet.contains( kanal ) ) {
+        if ( _chatService.kanalSchonVorhanden( kanalName) ) {
 
             LOG.info( "Nachricht auf bestehendem Kanal \"{}\" empfangen: {}",
-                      kanal, chatNachricht );
+                      kanalName, chatNachricht );
 
-            _chatService.neuerChatBeitrag( kanal, chatNachricht );
+            _chatService.neuerChatBeitrag( kanalName, chatNachricht );
 
         } else {
 
-            _kanalSet.add( kanal );
             LOG.info( "Nachricht auf neuem  Kanal \"{}\" empfangen: {}",
-                      kanal, chatNachricht );
+                      kanalName, chatNachricht );
 
-            _chatService.neuerChatKanal( kanal );
+            _chatService.neuerChatKanal( kanalName );
 
             chatNachricht.setNachricht( "Hat einen neuen Kanal gestartet" );
-
-            LOG.info( "Es gibt jetzt {} Kanäle.", _kanalSet.size() );
         }
 
         return chatNachricht;

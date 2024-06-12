@@ -31,6 +31,13 @@ public class ChatService {
     private ChatKanalRepo _chatKanalRepo;
 
 
+    public boolean kanalSchonVorhanden( String chatKanalName ) {
+
+        final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findByName( chatKanalName );
+        return kanalOptional.isPresent();
+    }
+
+    
     public void neuerChatKanal( String chatKanalName ) {
 
         ChatKanalEntity chatKanal = new ChatKanalEntity( chatKanalName );
