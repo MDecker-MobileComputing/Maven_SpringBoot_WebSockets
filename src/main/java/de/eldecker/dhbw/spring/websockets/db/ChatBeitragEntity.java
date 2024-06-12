@@ -122,4 +122,22 @@ public class ChatBeitragEntity {
         return Objects.hash( nickname, nachricht, chatKanal, zeitpunkt );
     }
 
+    @Override
+    public boolean equals( Object obj ) {
+
+        if ( obj == this ) { return true; }
+
+        if ( obj == null ) { return false; }
+
+        if ( obj instanceof ChatBeitragEntity andere ) {
+
+            return Objects.equals( nickname , andere.nickname  ) &&
+                   Objects.equals( nachricht, andere.nachricht ) &&
+                   Objects.equals( chatKanal, andere.chatKanal ) &&
+                   Objects.equals( zeitpunkt, andere.zeitpunkt );
+        } else {
+
+            return false;
+        }
+    }
 }
