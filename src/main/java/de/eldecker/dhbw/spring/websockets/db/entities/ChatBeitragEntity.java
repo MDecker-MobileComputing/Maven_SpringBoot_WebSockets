@@ -23,6 +23,7 @@ public class ChatBeitragEntity {
 
     public static final LocalDateTime DUMMY_ZEITPUNKT = LocalDateTime.of( 1970, JANUARY, 1, 0, 0 );
 
+    /** UUID: 128-Bit-Wert, z.B. {@code b69fefb7-4ccf-4b7d-90a9-dedfed01b4cf} */
     @Id
     @GeneratedValue
     @Column( name = "id", updatable = false, nullable = false )

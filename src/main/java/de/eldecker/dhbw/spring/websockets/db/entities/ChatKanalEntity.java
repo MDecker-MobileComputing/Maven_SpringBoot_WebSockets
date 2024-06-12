@@ -22,11 +22,17 @@ import jakarta.persistence.Table;
 @Table( name = "CHAT_KANAL" )
 public class ChatKanalEntity {
 
+    /** UUID: 128-Bit-Wert, z.B. {@code b69fefb7-4ccf-4b7d-90a9-dedfed01b4cf} */
     @Id
     @GeneratedValue
     @Column( name = "id", updatable = false, nullable = false )
     private UUID id;
 
+    /**
+     * Kanalname, der eindeutig sein muss; wegen {@code unique = true} wird
+     * automatisch ein Index auf die Spalte gelegt, der die Suche nach einem
+     * Kanalnamen beschleunigt.
+     */
     @Column( nullable = false, unique = true )
     private String name;
 
