@@ -21,8 +21,6 @@ import jakarta.persistence.Table;
 @Table( name = "CHAT_KANAL" )
 public class ChatKanalEntity {
 
-    public static final LocalDateTime DUMMY_ZEITPUNKT = LocalDateTime.of( 1970, JANUARY, 1, 0, 0 );
-
     @Id
     @GeneratedValue
     @Column( name = "id", updatable = false, nullable = false )
@@ -31,30 +29,25 @@ public class ChatKanalEntity {
     @Column( nullable = false, unique = true )
     private String name;
 
-    /** Zeitpunkt (Datum+Zeit), zu dem der Chat-Kanal gestartet wurde. */
-    @Column( nullable = false )
-    private LocalDateTime gestartet;
-
     /**
      * Attribut {@code cascade} von Annotation {@code OneToMany} muss
-     * auf {@code REMOVE} gesetzt werden, damit die zugehörigen 
+     * auf {@code REMOVE} gesetzt werden, damit die zugehörigen
      * {@link ChatBeitragEntity}-Objekte auch gelöscht werden, wenn
      * ein {@link ChatKanalEntity}-Objekt gelöscht wird.
      */
     @OneToMany( mappedBy = "chatKanal", cascade = REMOVE )
-    @OrderBy( "id ASC" )
+    @OrderBy( "zeitpunkt ASC" )
     private List<ChatBeitragEntity> beitraege = new ArrayList<>( 10 );
 
 
     public ChatKanalEntity() {
 
-        this ( "", DUMMY_ZEITPUNKT );
+        this ( "" );
     }
 
-    public ChatKanalEntity( String kanalName, LocalDateTime zeitpunkt ) {
+    public ChatKanalEntity( String kanalName ) {
 
-        this.name      = kanalName;
-        this.gestartet = zeitpunkt;
+        this.name = kanalName;
     }
 
     public UUID getId() {
@@ -77,16 +70,6 @@ public class ChatKanalEntity {
         this.name = name;
     }
 
-    public LocalDateTime getGestartet() {
-
-        return gestartet;
-    }
-
-    public void setGestartet( LocalDateTime gestartet ) {
-
-        this.gestartet = gestartet;
-    }
-
     public List<ChatBeitragEntity> getBeitraege() {
 
         return beitraege;
@@ -96,7 +79,5 @@ public class ChatKanalEntity {
 
         this.beitraege = beitraege;
     }
-
-
 
 }

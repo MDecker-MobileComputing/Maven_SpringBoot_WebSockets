@@ -33,7 +33,7 @@ public class ChatService {
 
     public void neuerChatKanal( String chatKanalName ) {
 
-        ChatKanalEntity chatKanal = new ChatKanalEntity( chatKanalName, now() );
+        ChatKanalEntity chatKanal = new ChatKanalEntity( chatKanalName );
 
         chatKanal = _chatKanalRepo.save( chatKanal );
 
@@ -57,8 +57,8 @@ public class ChatService {
 
         ChatBeitragEntity beitrag = new ChatBeitragEntity( chatNachricht.getNickname(),
                                                            chatNachricht.getNachricht(),
-                                                           chatKanal );
-
+                                                           chatKanal,
+                                                           now() );
         beitrag = _chatBeitragRepo.save( beitrag );
 
         LOG.info( "Chat-Beitrag von \"{}\" auf Kanal \"{}\" gespeichert.",
