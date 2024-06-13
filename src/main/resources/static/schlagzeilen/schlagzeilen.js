@@ -17,7 +17,7 @@ document.addEventListener( "DOMContentLoaded", function() {
         return;
     }
 
-    stompClient = new StompJs.Client({ brokerURL: "ws://localhost:8080/mein_ws" });
+    stompClient = new StompJs.Client({ brokerURL: `ws://${window.location.hostname}:8080/mein_ws` });
 
     stompClient.onConnect = ( frame ) => {
 
@@ -27,16 +27,16 @@ document.addEventListener( "DOMContentLoaded", function() {
             const nachrichtJSON = nachricht.body;
 
             const nachrichtObjekt = JSON.parse( nachrichtJSON );
-    
+
             const inOderAusland = nachrichtObjekt.istInland ? "[Inland] " : "[Ausland] ";
-    
+
             const text = inOderAusland + nachrichtObjekt.schlagzeile;
-    
+
             const paragraphNeu = "<p>" + text + "</p>";
-    
-            nachrichtenElement.innerHTML += paragraphNeu;            
+
+            nachrichtenElement.innerHTML += paragraphNeu;
         });
-    };    
+    };
 
     stompClient.onWebSocketError = ( error ) => {
 

@@ -1,0 +1,4 @@
+ports:
+    - name: WebSocket Server
+      port: 8080
+      protocol: ws
