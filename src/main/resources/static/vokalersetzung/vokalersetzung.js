@@ -43,7 +43,7 @@ document.addEventListener( "DOMContentLoaded", function() {
     }
 
     stompClient = new StompJs.Client({
-        brokerURL: "ws://localhost:8080/mein_ws" ,
+        brokerURL: `ws://${window.location.hostname}:8080/mein_ws`,
         debug: function( text ) { console.log( "STOMP-Debug-Info: " + text ); },
         reconnectDelay   : 5000, // Millisekunden
         heartbeatIncoming: 4000,

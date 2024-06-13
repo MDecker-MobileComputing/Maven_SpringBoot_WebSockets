@@ -27,9 +27,9 @@ let stompZiel = "";
 
 /**
  * Wert von URL-Parameter holen.
- * 
+ *
  * @param {*} nameParameter Name des URL-Parameters, z.B. "kanalname"
- * 
+ *
  * @returns Wert von URL-Parameter oder leerer String, falls Parameter nicht gefunden.
  */
 function holeUrlParameter( nameParameter ) {
@@ -59,7 +59,7 @@ document.addEventListener( "DOMContentLoaded", function() {
     }
     spanNickname = document.getElementById( "span_nickname" );
     if ( !spanNickname ) {
-            
+
         alert( "Konnte das Anzeige-Element für den Nicknamen nicht finden." );
         return;
     }
@@ -68,7 +68,7 @@ document.addEventListener( "DOMContentLoaded", function() {
 
         alert( "Konnte das Eingabe-Element für die Nachrichten nicht finden." );
         return;
-    }   
+    }
     divChatverlauf = document.getElementById( "chatverlauf" );
     if ( !divChatverlauf ) {
 
@@ -108,7 +108,7 @@ document.addEventListener( "DOMContentLoaded", function() {
 
 /**
  * Nachricht von Nutzer an Chat senden.
- * 
+ *
  * @param {string} nachricht Nachricht des Nutzers
  */
 function nachrichtSenden( nachricht ) {
@@ -133,14 +133,14 @@ function nachrichtSenden( nachricht ) {
  * Stomp-Verbindung aufbauen: Topic abonnieren und erste Nachricht senden.
  */
 function verbindungAufbauen() {
-    
+
     stompClient = new StompJs.Client({
-        brokerURL: "ws://localhost:8080/mein_ws" ,
+        brokerURL: `ws://${window.location.hostname}:8080/mein_ws`,
         debug: function( text ) { console.log( "STOMP-Debug-Info: " + text ); },
         reconnectDelay   : 5000, // Millisekunden
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000
-    });    
+    });
 
     const subscribeTopic = `/topic/unterhaltung/${kanalname}`;
 
@@ -158,12 +158,12 @@ function verbindungAufbauen() {
             const spanNickname  = `<span class=\"fett\">${jsonPayload.nickname} : </span>`;
 
             const paragraphNeu = `<p>${spanNickname}${jsonPayload.nachricht}</p>`;
-    
-            divChatverlauf.innerHTML += paragraphNeu;     
+
+            divChatverlauf.innerHTML += paragraphNeu;
         });
-        
+
         nachrichtSenden( "... ist dem Chat beigetreten." );
-    };    
+    };
 
     stompClient.activate(); // nicht vergessen!
 }
