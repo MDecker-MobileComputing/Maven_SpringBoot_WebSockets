@@ -20,6 +20,7 @@ public class UnterhaltungsController {
 
     private final static Logger LOG = LoggerFactory.getLogger( UnterhaltungsController.class );
 
+    /** Service-Bean für Persistenz */
     @Autowired
     private ChatService _chatService;
 
@@ -36,8 +37,8 @@ public class UnterhaltungsController {
      */
     @MessageMapping( "/chat/{kanalName}" )
     @SendTo( "/topic/unterhaltung/{kanalName}" )
-    public ChatNachricht sendMessage( @DestinationVariable String kanalName,
-                                      ChatNachricht chatNachricht ) {
+    public ChatNachricht verberiteNachricht( @DestinationVariable String kanalName,
+                                             ChatNachricht chatNachricht ) {
 
         if ( _chatService.kanalSchonVorhanden( kanalName) ) {
 
