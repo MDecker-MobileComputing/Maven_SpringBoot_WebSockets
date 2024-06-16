@@ -17,7 +17,13 @@ document.addEventListener( "DOMContentLoaded", function() {
         return;
     }
 
-    stompClient = new StompJs.Client({ brokerURL: `ws://${window.location.hostname}:8080/mein_ws` });
+    let protocol = "ws";
+    if ( window.location.protocol === "https:" ) { protocol = "wss"; }
+
+    const urlFuerBroker = `${protocol}://${window.location.hostname}:8080/mein_ws`;
+    console.log( "Broker-URL: " + urlFuerBroker )
+
+    stompClient = new StompJs.Client({ brokerURL: urlFuerBroker });
 
     stompClient.onConnect = ( frame ) => {
 
