@@ -134,8 +134,14 @@ function nachrichtSenden( nachricht ) {
  */
 function verbindungAufbauen() {
 
+    const protocol = ( window.location.protocol === "https:" ) ? "wss" : "ws";
+    let portNummer = window.location.port;
+    if ( portNummer != "") {  portNummer = ":" + portNummer; }
+    const urlFuerBroker = `${protocol}://${window.location.hostname}${portNummer}/mein_ws`;
+    console.log( "Broker-URL: " + urlFuerBroker )
+
     stompClient = new StompJs.Client({
-        brokerURL: `ws://${window.location.hostname}:8080/mein_ws`,
+        brokerURL: urlFuerBroker,
         debug: function( text ) { console.log( "STOMP-Debug-Info: " + text ); },
         reconnectDelay   : 5000, // Millisekunden
         heartbeatIncoming: 4000,
