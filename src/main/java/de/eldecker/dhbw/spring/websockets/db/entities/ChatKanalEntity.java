@@ -47,6 +47,9 @@ public class ChatKanalEntity {
     private List<ChatBeitragEntity> beitraege = new ArrayList<>( 10 );
 
 
+    /**
+     * Default-Konstruktor für JPA.
+     */
     public ChatKanalEntity() {
 
         this ( "" );
@@ -119,11 +122,10 @@ public class ChatKanalEntity {
 
             return Objects.equals( name     , anderer.name      ) &&
                    Objects.equals( beitraege, anderer.beitraege );
-
         } else {
 
-                return false;
-            }
+            return false;
+        }
     }
 
 }

@@ -51,7 +51,10 @@ public class ChatBeitragEntity {
     @JoinColumn( name = "kanal_fk", referencedColumnName = "id" )
     private ChatKanalEntity chatKanal;
 
-
+    
+    /**
+     * Default-Konstruktor für JPA.
+     */
     public ChatBeitragEntity() {
 
         this( "", "", null, DUMMY_ZEITPUNKT );
