@@ -60,6 +60,9 @@ public class ChatBeitragEntity {
         this( "", "", null, DUMMY_ZEITPUNKT );
     }
 
+    /**
+     * Konstruktor um alle Attribute außer der ID zu setzen.
+     */
     public ChatBeitragEntity( String nickName, String nachricht,
                               ChatKanalEntity chatKanal,
                               LocalDateTime   zeitpunkt ) {

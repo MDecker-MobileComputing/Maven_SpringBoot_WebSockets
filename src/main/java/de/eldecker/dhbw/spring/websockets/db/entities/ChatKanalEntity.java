@@ -55,6 +55,9 @@ public class ChatKanalEntity {
         this ( "" );
     }
 
+    /**
+     * Konstruktor um alle Attribute außer der ID zu setzen.
+     */    
     public ChatKanalEntity( String kanalName ) {
 
         this.name = kanalName;
