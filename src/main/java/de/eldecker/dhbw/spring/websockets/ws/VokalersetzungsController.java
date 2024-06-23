@@ -69,10 +69,9 @@ public class VokalersetzungsController {
      */
     @MessageMapping( "/vokalersetzung_input" )
     @SendToUser( "/queue/vokalersetzungs_output" )
-    public String vokaleErsetzen( VokalersetzungInput inputObjekt,
-                                  @Header("simpSessionId") String sessionId )
-            throws VokalersetzungsException {
-
+    public String vokaleErsetzen( VokalersetzungInput             inputObjekt,
+                                  @Header("simpSessionId") String sessionId ) throws VokalersetzungsException { 
+                                            
         LOG.info( "Vokalsersetzungsauftrag erhalten: {}", inputObjekt );        
         
         final int anzahlRequests = getRequestZaehler( sessionId );
