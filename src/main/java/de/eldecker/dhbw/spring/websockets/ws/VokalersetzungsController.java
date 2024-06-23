@@ -32,6 +32,13 @@ public class VokalersetzungsController {
 
     private final static Logger LOG = LoggerFactory.getLogger( VokalersetzungsController.class );
 
+    /** Regulärer Ausdruck für Vokale als Großbuchstaben. */
+    private final String REGEXP_VOKALE_GROSS = "[AEIOU]";
+    
+    /** Regulärer Ausdruck für Vokale als Kleinbuchstaben. */
+    private final String REGEXP_VOKALE_KLEIN = "[aeiou]";
+    
+    
     /**
      * Map bildet Sitzungs-ID auf Zähler ab; um zu kontrollieren, dass für eine Sitzung nicht
      * mehr als eine bestimmte Anzahl "Übersetzungen" durchgeführt werden.
@@ -56,7 +63,7 @@ public class VokalersetzungsController {
      *
      * @param sessionId ID der Nutzersitzung, z.B. {@code e8656a71-eb77-aa66-c50a-ff68cda8d989}
      *
-     * @return Ergebnis String mit "Übersetzungsergebnis", wird an STOMP-Client geschickt.
+     * @return Ergebnis String mit "Übersetzungsergebnis", wird an STOMP-Client geschickt
      *
      * @throws VokalersetzungsException wenn mehr als drei Anfragen pro Sitzung gestellt werden
      */
@@ -66,6 +73,8 @@ public class VokalersetzungsController {
                                   @Header("simpSessionId") String sessionId )
             throws VokalersetzungsException {
 
+        LOG.info( "Vokalsersetzungsauftrag erhalten: {}", inputObjekt );        
+        
         final int anzahlRequests = getRequestZaehler( sessionId );
         if ( anzahlRequests > 3 ) {
 
@@ -73,12 +82,14 @@ public class VokalersetzungsController {
         }
 
         final String inputText = inputObjekt.text();
-        final char   vokal     = inputObjekt.vokal();
+        final String vokal     = inputObjekt.vokal() + "";
+        
+        final String vokalGross = vokal.toUpperCase();
+        final String vokalKlein = vokal.toLowerCase();
 
-        LOG.info( "Im folgenden Text sind alle Vokale durch \"{}\" zu ersetzen: \"{}\"",
-                  vokal, inputText );
 
-        final String textZumClient = inputText.replaceAll( "[aeiou]", vokal + "" ); // regexp für alle Vokale
+        final String textZumClient = inputText.replaceAll( REGEXP_VOKALE_GROSS, vokalGross + "" )
+                                              .replaceAll( REGEXP_VOKALE_KLEIN, vokalKlein + "" )   ;                                         
 
         LOG.info( "Sende Ergebnis Vokalersetzung zum Client: \"{}\"", textZumClient );
 
