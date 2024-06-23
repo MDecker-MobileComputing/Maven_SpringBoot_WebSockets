@@ -31,6 +31,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints( StompEndpointRegistry registry ) {
 
         registry.addEndpoint( "/mein_ws" ).setAllowedOrigins("*");
+        // setAllowedOrigins("*") erlaubt den Zugriff auch von Webseiten,
+        // die nicht von Spring Boot selbst ausgeliefert werden
+        // und deshalb eine andere Origin haben.
     }
 
 
