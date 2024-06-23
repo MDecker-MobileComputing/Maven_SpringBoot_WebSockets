@@ -63,7 +63,7 @@ public class VokalersetzungsController {
      *
      * @param sessionId ID der Nutzersitzung, z.B. {@code e8656a71-eb77-aa66-c50a-ff68cda8d989}
      *
-     * @return Ergebnis String mit "Übersetzungsergebnis", wird an STOMP-Client geschickt
+     * @return Ergebnis-String mit "Übersetzungsergebnis", wird an STOMP-Client geschickt
      *
      * @throws VokalersetzungsException wenn mehr als drei Anfragen pro Sitzung gestellt werden
      */
@@ -103,6 +103,9 @@ public class VokalersetzungsController {
      *
      * @param sessionId ID der Nutzersitzung, in der der Fehler aufgetreten ist,
      *                  z.B. {@code e8656a71-eb77-aa66-c50a-ff68cda8d989}
+     *                  
+     * @return String mit Fehlermeldung, wird über STOMP-Kanal an den Client 
+     *         geschickt
      */
     @MessageExceptionHandler
     @SendToUser( "/queue/vokalersetzungs_fehler" )
