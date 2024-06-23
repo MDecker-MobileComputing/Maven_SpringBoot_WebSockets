@@ -11,6 +11,10 @@ mit einer "Spring Boot"-Anwendung als Backend:
 
 <br>
 
+[Ionic-Client für diesen WebSocket-Server](https://github.com/MDecker-MobileComputing/Ionic_WebSocketClient)
+
+<br>
+
 ----
 
 ## License ##
