@@ -54,7 +54,6 @@ document.addEventListener( "DOMContentLoaded", function() {
         reconnectDelay   : 5000, // Millisekunden
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000
-
     });
     stompClient.onConnect = ( frame ) => {
 
