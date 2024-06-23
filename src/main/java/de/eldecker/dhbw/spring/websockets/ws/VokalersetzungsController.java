@@ -86,10 +86,9 @@ public class VokalersetzungsController {
         
         final String vokalGross = vokal.toUpperCase();
         final String vokalKlein = vokal.toLowerCase();
-
-
+        
         final String textZumClient = inputText.replaceAll( REGEXP_VOKALE_GROSS, vokalGross + "" )
-                                              .replaceAll( REGEXP_VOKALE_KLEIN, vokalKlein + "" )   ;                                         
+                                              .replaceAll( REGEXP_VOKALE_KLEIN, vokalKlein + "" );                                         
 
         LOG.info( "Sende Ergebnis Vokalersetzung zum Client: \"{}\"", textZumClient );
 
