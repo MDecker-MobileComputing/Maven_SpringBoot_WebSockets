@@ -29,6 +29,7 @@ public class ChatNachricht {
         _nachricht = "";
     }
     
+
     /**
      * Konstruktor, um beide Attribute zu setzen
      * 
