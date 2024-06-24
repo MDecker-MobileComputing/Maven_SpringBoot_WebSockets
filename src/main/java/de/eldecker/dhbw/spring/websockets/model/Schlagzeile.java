@@ -10,5 +10,5 @@ package de.eldecker.dhbw.spring.websockets.model;
  */
 public record Schlagzeile( String  schlagzeile, 
                            boolean istInland   
-                          ) {
+                         ) {
 }

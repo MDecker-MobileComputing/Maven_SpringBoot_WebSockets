@@ -17,6 +17,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
 
 
+/**
+ * Einträge für einen einzelnen Chat-Beitrag, der zu genau einem
+ * Chat-Kanal gehört.
+ */
 @Entity
 @Table( name = "CHAT_BEITRAEGE" )
 public class ChatBeitragEntity {
@@ -123,6 +127,7 @@ public class ChatBeitragEntity {
         this.chatKanal = chatKanal;
     }
 
+    
     @Override
     public String toString() {
 
@@ -131,17 +136,18 @@ public class ChatBeitragEntity {
         return str;
     }
 
+    
     @Override
     public int hashCode() {
 
         return Objects.hash( nickname, nachricht, chatKanal, zeitpunkt );
     }
+    
 
     @Override
     public boolean equals( Object obj ) {
 
-        if ( obj == this ) { return true; }
-
+        if ( obj == this ) { return true;  }
         if ( obj == null ) { return false; }
 
         if ( obj instanceof ChatBeitragEntity andere ) {

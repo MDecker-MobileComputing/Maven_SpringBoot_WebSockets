@@ -19,25 +19,44 @@ import de.eldecker.dhbw.spring.websockets.model.ChatException;
 import de.eldecker.dhbw.spring.websockets.model.ChatNachricht;
 
 
+/**
+ * Service-Bean für Datenbankoperationen für Chat. 
+ */
 @Service
 public class ChatService {
 
     private final static Logger LOG = LoggerFactory.getLogger( ChatService.class );
 
+    /** Repo-Bean für Zugriff auf Datenbanktabelle mit Chat-Beiträgen. */
     @Autowired
     private ChatBeitragRepo _chatBeitragRepo;
 
+    /** Repo-Bean für Zugriff auf Datenbanktabelle mit Chat-Kanälen. */
     @Autowired
     private ChatKanalRepo _chatKanalRepo;
 
 
+    /**
+     * Überprüfen, ob es schon einen Kanal mit Name {@code chatKanalName} gibt.
+     * 
+     * @param chatKanalName Name Chat-Kanal, der auf Existenz zu prüfen ist
+     * 
+     * @return {@code true} gdw. es schon einen Kanal mit {@code chatKanalName} gibt 
+     */
     public boolean kanalSchonVorhanden( String chatKanalName ) {
 
-        final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findByName( chatKanalName );
+        final Optional<ChatKanalEntity> kanalOptional = 
+                _chatKanalRepo.findByName( chatKanalName );
+        
         return kanalOptional.isPresent();
     }
 
     
+    /**
+     * Neuen Chat-Kanal anlegen.
+     * 
+     * @param chatKanalName Name für neuen Kanal
+     */
     public void neuerChatKanal( String chatKanalName ) {
 
         ChatKanalEntity chatKanal = new ChatKanalEntity( chatKanalName );
@@ -48,7 +67,14 @@ public class ChatService {
                   chatKanalName, chatKanal.getId() );
     }
 
-
+    
+    /**
+     * Neuen Beiträg in Chat-Kanal {@code chatKanalName} einfügen.
+     * 
+     * @param chatKanalName Name des Chat-Kanals
+     * 
+     * @param chatNachricht Neue Nachricht für {@code chatKanalName}
+     */
     public void neuerChatBeitrag( String        chatKanalName,
                                   ChatNachricht chatNachricht ) {
 
@@ -72,6 +98,13 @@ public class ChatService {
     }
 
 
+    /**
+     * Alle Beiträge für einen bestimmten Chat-Kanal zurückliefern.
+     * 
+     * @param chatKanalName Name des Chat-Kanals
+     * 
+     * @return Liste aller Beiträge im Kanal {@code chatKanalName}
+     */
     public List<ChatBeitragEntity> getAlleBeitraegeKanal( String chatKanalName ) {
 
         final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findByName( chatKanalName );
@@ -88,7 +121,14 @@ public class ChatService {
         return chatKanal.getBeitraege();
     }
 
-
+    
+    /**
+     * Chat-Kanal löschen.
+     * 
+     * @param chatKanalName Name von zu löschendem Kanal
+     * 
+     * @throws ChatException Kein Kanal mit {@code chatKanalName} gefunden.
+     */
     public void chatKanalLoeschen( String chatKanalName ) throws ChatException {
 
         final Optional<ChatKanalEntity> kanalOptional = _chatKanalRepo.findByName( chatKanalName );

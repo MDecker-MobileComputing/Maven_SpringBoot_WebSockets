@@ -1,6 +1,7 @@
 package de.eldecker.dhbw.spring.websockets.db.entities;
 
 import static jakarta.persistence.CascadeType.REMOVE;
+import static java.lang.String.format;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
 
+/**
+ * Entity-Klasse für Chat-Kanal. 
+ */
 @Entity
 @Table( name = "CHAT_KANAL" )
 public class ChatKanalEntity {
@@ -104,8 +108,8 @@ public class ChatKanalEntity {
     @Override
     public String toString() {
 
-        return String.format( "Chat-Kanal mit Name \"%s\" und %d Beiträgen.",
-                              name, beitraege.size() );
+        return format( "Chat-Kanal mit Name \"%s\" und %d Beiträgen.",
+                       name, beitraege.size() );
     }
 
     @Override
@@ -117,8 +121,7 @@ public class ChatKanalEntity {
     @Override
     public boolean equals( Object obj ) {
 
-        if ( obj == this ) { return true; }
-
+        if ( obj == this ) { return true;  }
         if ( obj == null ) { return false; }
 
         if ( obj instanceof ChatKanalEntity anderer ) {

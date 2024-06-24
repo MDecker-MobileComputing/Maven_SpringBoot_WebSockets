@@ -68,7 +68,7 @@ public class SchlagzeilenErzeuger {
 
 
     /**
-     * Konstruktor, schreibt Anzahl Ereignisse und Länder in Log.
+     * Konstruktor, schreibt Anzahl Ereignisse, Bundesländer und Nationen in Log.
      */
     public SchlagzeilenErzeuger() {
 

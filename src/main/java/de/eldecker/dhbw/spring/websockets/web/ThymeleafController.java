@@ -23,19 +23,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+/**
+ * Controller-Klasse für Thymeleaf (Thymeleaf Engine).  
+ */
 @Controller
 @RequestMapping( "/app/" )
 public class ThymeleafController {
 
     private final static Logger LOG = LoggerFactory.getLogger( ThymeleafController.class );
 
+    /** Repo-Bean für Zugriff auf DB-Tabelle mit Chat-Kanälen. */
     @Autowired
     private ChatKanalRepo _chatKanalRepo;
 
+    /** Bean für formatierung von Datum-/Zeitwert für Anzeige. */
     @Autowired
     private DateTimeFormatter _datumZeitFormatierer;
 
 
+    /**
+     * Controller-Methode für Anzeige der Liste aller Kanäle.
+     * 
+     * @param model Objekt für Platzhalterwerte für Template.
+     * 
+     * @return Name anzuzeigender Template-Datei ohne Datei-Endung.
+     */
     @GetMapping( "/chat-kanal-liste" )
     public String chatKanalListe ( Model model ) {
 
@@ -46,7 +58,18 @@ public class ThymeleafController {
         return "chat-kanal-liste";
     }
 
-
+    
+    /**
+     * Controller-Methode für Anzeige aller Chat-Beiträge in einem Chat-Kanal
+     * 
+     * @param model Objekt für Platzhalterwerte für Template.
+     * 
+     * @param uuid Primärschlüssel des Chat-Kanals
+     * 
+     * @return Name anzuzeigender Template-Datei ohne Datei-Endung.
+     * 
+     * @throws ChatException Kanal mit {@code uuid} wurde nicht gefunden
+     */
     @GetMapping( "/chat-kanal-historie" )
     public String chatKanalHistorie( Model model,
                                      @RequestParam( value = "uuid", required = true ) UUID uuid )
@@ -80,6 +103,17 @@ public class ThymeleafController {
     }
 
 
+    /**
+     * Controller-Methode für Löschen eines Chat-Kanals.
+     * 
+     * @param model Objekt für Platzhalterwerte für Template.
+     * 
+     * @param uuid Primärschlüssel des Chat-Kanals
+     * 
+     * @return Name anzuzeigender Template-Datei ohne Datei-Endung.
+     * 
+     * @throws ChatException Kanal mit {@code uuid} wurde nicht gefunden
+     */
     @GetMapping( "/chat-kanal-loeschen" )
     public String chatKanalLoeschen( Model model,
                                      @RequestParam( value = "uuid", required = true ) UUID uuid )

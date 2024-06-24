@@ -9,10 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import de.eldecker.dhbw.spring.websockets.db.entities.ChatKanalEntity;
 
 
+/**
+ * Interface für Repo-Bean für Zugriff auf Chat-Kanäle. 
+ */
 public interface ChatKanalRepo extends JpaRepository<ChatKanalEntity, UUID> {
 
     Optional<ChatKanalEntity> findByName( String kanalName );
     
     List<ChatKanalEntity> findAllByOrderByNameAsc();
-
 }

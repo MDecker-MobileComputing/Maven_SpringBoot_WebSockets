@@ -9,7 +9,10 @@ import de.eldecker.dhbw.spring.websockets.db.entities.ChatBeitragEntity;
 import de.eldecker.dhbw.spring.websockets.db.entities.ChatKanalEntity;
 
 
-public interface ChatBeitragRepo extends JpaRepository<ChatBeitragEntity, UUID>{
+/**
+ * Interface für Repo-Bean zum Zugriff auf Chat-Beiträge.
+ */
+public interface ChatBeitragRepo extends JpaRepository<ChatBeitragEntity, UUID> {
 
     List<ChatBeitragEntity> findByChatKanal( ChatKanalEntity chatKanalEntity );
 }

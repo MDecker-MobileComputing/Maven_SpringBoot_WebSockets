@@ -21,14 +21,14 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 public class BohnenFabrik {
 
     /**
-     * Liefert konfiguriertes ObjectMapper-Objekt zurück, welches für Object-nach-JSON (Serialisierung)
-     * oder JSON-nach-Objekt (Deserialisierung) benötigt wird.
+     * Liefert konfiguriertes ObjectMapper-Objekt zurück, welches für Object-nach-JSON 
+     * (Serialisierung) oder JSON-nach-Objekt (Deserialisierung) benötigt wird.
      * <br><br>
      *
      * Konfiguration:
      * <ul>
-     * <li>Kein Fehler, wenn beim Deserialisierung ein Feld im JSON gefunden wird, das nicht in der
-     *     Zielklasse definiert ist</li>
+     * <li>Kein Fehler, wenn beim Deserialisierung ein Feld im JSON gefunden wird, das nicht 
+     *     in der Zielklasse definiert ist</li>
      *  <li>Das erzeugte JSOn wird für bessere Lesbarkeit durch Einrückungen formatiert.</li>
      * </ul>
      *
@@ -43,6 +43,12 @@ public class BohnenFabrik {
                          .build();
     }
 
+    
+    /**
+     * Methode liefert Datumsformatierer für Anzeigedatum.
+     * 
+     * @return Datumsformatierer für Anzeigedatum im dt. Format.
+     */
     @Bean
     public DateTimeFormatter dateTimeFormatter() {
 
