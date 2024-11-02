@@ -86,7 +86,7 @@ public class SchlagzeilenSender {
      * <li>{@code fixedDelay}: Diese Zeit beginnt, sobald der vorherige Methodenaufruf
      * beendet ist; in der Methode wird eine zufällige Wartezeit eingebaut,
      * so dass die Methode nicht exakt alle 5 Sekunden aufgerufen wird. Es gibt auch
-     * nocht {@code fixedRate}, bei der die Methode exakt alle 5 Sekunden aufgerufen wird,
+     * noch {@code fixedRate}, bei der die Methode exakt alle 5 Sekunden aufgerufen wird,
      * egal wie lange die Ausführung dauert.
      * </li>
      * <li>{@code initialDelay}: Zeit, die nach dem Start der Anwendung gewartet wird,
