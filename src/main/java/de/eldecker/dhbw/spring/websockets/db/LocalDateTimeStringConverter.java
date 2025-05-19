@@ -24,6 +24,7 @@ public class LocalDateTimeStringConverter implements AttributeConverter<LocalDat
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern( "dd.MM.yyyy, HH:mm:ss" );
 
+    
     /**
      * Diese Methode wird vor dem Speichern eines Attributs vom Typ {@code LocalDateTime} auf die Datenbank
      * aufgerufen, um es in einen String umzuwandeln.

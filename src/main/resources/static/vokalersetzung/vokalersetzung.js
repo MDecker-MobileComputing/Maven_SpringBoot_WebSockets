@@ -131,10 +131,5 @@ function onZuruecksetzenButton() {
 
     ergebnisZaehler = 0;
 
-    const erstesKind = ergebnisseElement.firstChild;
-    while ( erstesKind ) {
-
-        ergebnisseElement.removeChild( erstesKind );
-    }
-
+    ergebnisseElement.innerHTML = "";
 }
