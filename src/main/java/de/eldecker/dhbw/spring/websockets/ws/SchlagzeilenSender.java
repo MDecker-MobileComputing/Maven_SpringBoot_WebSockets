@@ -15,8 +15,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 
 /**
@@ -124,7 +124,7 @@ public class SchlagzeilenSender {
             final int delayZeit = _zufallsDelay.getZufallsDelayZeit(); 
             Thread.sleep( delayZeit );                        
         } 
-        catch ( JsonProcessingException ex ) {
+        catch ( JacksonException ex ) {
             
             LOG.error( "Fehler beim Konvertieren von Schlagzeile nach JSON: " + ex.getMessage() );            
         } 

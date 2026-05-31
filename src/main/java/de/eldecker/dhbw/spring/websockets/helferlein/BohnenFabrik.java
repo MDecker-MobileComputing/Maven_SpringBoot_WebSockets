@@ -1,7 +1,6 @@
 package de.eldecker.dhbw.spring.websockets.helferlein;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
+import static tools.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
 import static java.util.Locale.GERMAN;
 
@@ -10,8 +9,8 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.ObjectMapper;
 
 
 /**
@@ -40,7 +39,6 @@ public class BohnenFabrik {
 
         return JsonMapper.builder()
                          .disable( FAIL_ON_UNKNOWN_PROPERTIES )
-                         .enable(  INDENT_OUTPUT              )
                          .build();
     }
 
@@ -53,7 +51,8 @@ public class BohnenFabrik {
     @Bean
     public DateTimeFormatter dateTimeFormatter() {
 
-        return DateTimeFormatter.ofPattern( "d. MMMM yyyy, HH:mm 'Uhr'", GERMAN );
+        return DateTimeFormatter.ofPattern( "d. MMMM yyyy, HH:mm 'Uhr'", 
+        		                            GERMAN );
     }
 
 }
